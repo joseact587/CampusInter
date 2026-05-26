@@ -49,7 +49,8 @@ public sealed class JwtTokenService : IJwtTokenService
             new(JwtRegisteredClaimNames.Email, usuario.Correo),
             new(ClaimTypes.Email, usuario.Correo),
             new(ClaimTypes.Name, $"{estudiante.PrimerNombre} {estudiante.PrimerApellido}".Trim()),
-            new(ClaimTypes.Role, usuario.Rol.ToString())
+            new(ClaimTypes.Role, usuario.Rol.ToString()),
+            new("role", usuario.Rol.ToString())
         };
 
         var token = new JwtSecurityToken(

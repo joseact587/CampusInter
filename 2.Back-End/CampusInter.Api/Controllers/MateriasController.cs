@@ -1,3 +1,4 @@
+using CampusInter.Api.Authorization;
 using CampusInter.Application.DTOs.Materias;
 using CampusInter.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CampusInter.Api.Controllers;
 
 [ApiController]
-[Authorize]
+[Authorize(Policy = AuthorizationPolicies.Estudiante)]
 [Route("api/materias")]
 public sealed class MateriasController : ControllerBase
 {

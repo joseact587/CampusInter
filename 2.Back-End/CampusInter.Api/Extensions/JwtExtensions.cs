@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using System.Text;
+using CampusInter.Api.Authorization;
 using CampusInter.Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -43,12 +45,28 @@ public static class JwtExtensions
                     IssuerSigningKey = signingKey,
 
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.FromMinutes(1)
+                    ClockSkew = TimeSpan.FromMinutes(1),
+
+                    RoleClaimType = ClaimTypes.Role,
+                    NameClaimType = ClaimTypes.NameIdentifier
                 };
             });
 
         // Autorizacion
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(AuthorizationPolicies.Estudiante, policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireRole("Estudiante");
+            });
+
+            options.AddPolicy(AuthorizationPolicies.Administrador, policy =>
+            {
+                policy.RequireAuthenticatedUser();
+                policy.RequireRole("Administrador");
+            });
+        });
 
         return services;
     }

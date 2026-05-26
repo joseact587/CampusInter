@@ -12,5 +12,6 @@ public sealed class AuthResponse
     public string PrimerApellido { get; init; } = string.Empty;
     public string? SegundoApellido { get; init; }
     public string Rol { get; init; } = string.Empty;
+    public IReadOnlyCollection<string> Roles { get; init; } = [];
     public string Estado { get; init; } = string.Empty;
 }

@@ -10,6 +10,13 @@ public static class OpenApiExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
+            // Documento
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "CampusInter API",
+                Version = "v1"
+            });
+
             // Bearer
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {

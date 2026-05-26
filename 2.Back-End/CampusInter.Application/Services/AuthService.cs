@@ -120,6 +120,7 @@ public sealed class AuthService : IAuthService
             PrimerApellido = estudiante.PrimerApellido,
             SegundoApellido = estudiante.SegundoApellido,
             Rol = usuario.Rol.ToString(),
+            Roles = [usuario.Rol.ToString()],
             Estado = estudiante.Estado.ToString()
         };
     }
