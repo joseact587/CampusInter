@@ -42,4 +42,20 @@ public sealed class InscripcionRepository : IInscripcionRepository
                 inscripcion.EstudianteId == estudianteId &&
                 inscripcion.Estado == EstadoInscripcion.Activa);
     }
+
+    public async Task<IReadOnlyList<Inscripcion>> ObtenerActivasPorMateriasIdsAsync(
+        IReadOnlyCollection<int> materiasIds,
+        int estudianteIdExcluir)
+    {
+        return await _context.Inscripciones
+            .AsNoTracking()
+            .Include(inscripcion => inscripcion.Estudiante)
+            .Include(inscripcion => inscripcion.InscripcionesMateria)
+                .ThenInclude(detalle => detalle.Materia)
+            .Where(inscripcion =>
+                inscripcion.Estado == EstadoInscripcion.Activa &&
+                inscripcion.EstudianteId != estudianteIdExcluir &&
+                inscripcion.InscripcionesMateria.Any(detalle => materiasIds.Contains(detalle.MateriaId)))
+            .ToListAsync();
+    }
 }

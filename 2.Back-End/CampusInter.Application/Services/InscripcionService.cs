@@ -95,6 +95,48 @@ public sealed class InscripcionService : IInscripcionService
         return _mapper.Map<InscripcionResponse>(inscripcion);
     }
 
+    public async Task<IReadOnlyList<MateriaCompanerosResponse>> ObtenerCompanerosPorMiInscripcionAsync()
+    {
+        var estudianteId = ObtenerEstudianteIdAutenticado();
+
+        var miInscripcion = await _inscripcionRepository.ObtenerActivaPorEstudianteIdAsync(estudianteId);
+
+        if (miInscripcion is null)
+            throw new NotFoundException("El estudiante no tiene una inscripcion activa.", "active_enrollment_not_found");
+
+        var materiasInscritas = miInscripcion.InscripcionesMateria
+            .Select(detalle => detalle.Materia)
+            .OrderBy(materia => materia.MateriaId)
+            .ToList();
+
+        var materiasIds = materiasInscritas
+            .Select(materia => materia.MateriaId)
+            .ToList();
+
+        var inscripcionesCompaneros = await _inscripcionRepository
+            .ObtenerActivasPorMateriasIdsAsync(materiasIds, estudianteId);
+
+        return materiasInscritas
+            .Select(materia =>
+            {
+                var companeros = inscripcionesCompaneros
+                    .Where(inscripcion => inscripcion.InscripcionesMateria
+                        .Any(detalle => detalle.MateriaId == materia.MateriaId))
+                    .Select(inscripcion => inscripcion.Estudiante)
+                    .DistinctBy(estudiante => estudiante.EstudianteId)
+                    .Select(estudiante => _mapper.Map<CompaneroResponse>(estudiante))
+                    .ToList();
+
+                return new MateriaCompanerosResponse
+                {
+                    MateriaId = materia.MateriaId,
+                    MateriaNombre = materia.Nombre,
+                    Companeros = companeros
+                };
+            })
+            .ToList();
+    }
+
     // Usuario autenticado
     private int ObtenerEstudianteIdAutenticado()
     {

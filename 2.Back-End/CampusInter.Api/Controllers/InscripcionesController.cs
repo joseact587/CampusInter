@@ -36,4 +36,12 @@ public sealed class InscripcionesController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpGet("mi-inscripcion/companeros")]
+    public async Task<ActionResult<IReadOnlyList<MateriaCompanerosResponse>>> ObtenerCompanerosPorMiInscripcion()
+    {
+        var response = await _inscripcionService.ObtenerCompanerosPorMiInscripcionAsync();
+
+        return Ok(response);
+    }
 }
