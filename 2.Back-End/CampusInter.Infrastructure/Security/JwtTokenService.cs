@@ -21,7 +21,7 @@ public sealed class JwtTokenService : IJwtTokenService
     }
 
     // Token
-    public string GenerateToken(Estudiante estudiante)
+    public string GenerateToken(Usuario usuario, Estudiante estudiante)
     {
         if (string.IsNullOrWhiteSpace(_jwtOptions.SecretKey))
             throw new InvalidOperationException("La clave JWT no esta configurada.");
@@ -43,11 +43,13 @@ public sealed class JwtTokenService : IJwtTokenService
 
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, estudiante.EstudianteId.ToString()),
-            new(ClaimTypes.NameIdentifier, estudiante.EstudianteId.ToString()),
-            new(JwtRegisteredClaimNames.Email, estudiante.Correo),
-            new(ClaimTypes.Email, estudiante.Correo),
-            new(ClaimTypes.Name, $"{estudiante.PrimerNombre} {estudiante.PrimerApellido}".Trim())
+            new(JwtRegisteredClaimNames.Sub, usuario.UsuarioId.ToString()),
+            new(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
+            new("estudianteId", estudiante.EstudianteId.ToString()),
+            new(JwtRegisteredClaimNames.Email, usuario.Correo),
+            new(ClaimTypes.Email, usuario.Correo),
+            new(ClaimTypes.Name, $"{estudiante.PrimerNombre} {estudiante.PrimerApellido}".Trim()),
+            new(ClaimTypes.Role, usuario.Rol.ToString())
         };
 
         var token = new JwtSecurityToken(

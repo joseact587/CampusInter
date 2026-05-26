@@ -34,6 +34,9 @@ public sealed class CurrentUser : ICurrentUser
         }
     }
 
+    public string? EstudianteId =>
+        _http.HttpContext?.User?.FindFirst("estudianteId")?.Value;
+
     public string? Email =>
         _http.HttpContext?.User?.FindFirst(ClaimTypes.Email)?.Value
         ?? _http.HttpContext?.User?.FindFirst("email")?.Value;

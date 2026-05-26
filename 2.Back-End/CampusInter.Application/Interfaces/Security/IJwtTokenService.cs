@@ -4,5 +4,5 @@ namespace CampusInter.Application.Interfaces.Security;
 
 public interface IJwtTokenService
 {
-    string GenerateToken(Estudiante estudiante);
+    string GenerateToken(Usuario usuario, Estudiante estudiante);
 }

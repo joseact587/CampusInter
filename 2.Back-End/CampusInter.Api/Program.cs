@@ -1,6 +1,7 @@
 using CampusInter.Api.Extensions;
 using CampusInter.Api.Middlewares;
 using CampusInter.Application;
+using CampusInter.Application.Interfaces.Security;
 using CampusInter.Infrastructure;
 using CampusInter.Infrastructure.Persistence;
 using CampusInter.Infrastructure.Persistence.Seed;
@@ -39,9 +40,10 @@ if (app.Environment.IsDevelopment())
     using var scope = app.Services.CreateScope();
 
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
 
     await db.Database.MigrateAsync();
-    await ApplicationDbContextSeeder.SeedAsync(db);
+    await ApplicationDbContextSeeder.SeedAsync(db, passwordHasher);
 }
 
 // Swagger / OpenAPI

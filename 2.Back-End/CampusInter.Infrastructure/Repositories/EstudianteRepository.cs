@@ -31,6 +31,7 @@ public sealed class EstudianteRepository : IEstudianteRepository
     public Task<Estudiante?> ObtenerPorIdAsync(int estudianteId)
     {
         return _context.Estudiantes
+            .Include(estudiante => estudiante.Usuario)
             .FirstOrDefaultAsync(estudiante => estudiante.EstudianteId == estudianteId);
     }
 
@@ -38,23 +39,8 @@ public sealed class EstudianteRepository : IEstudianteRepository
     {
         return _context.Estudiantes
             .AsNoTracking()
+            .Include(estudiante => estudiante.Usuario)
             .FirstOrDefaultAsync(estudiante => estudiante.EstudianteId == estudianteId);
-    }
-
-    public Task<Estudiante?> ObtenerPorCorreoAsync(string correo)
-    {
-        var correoNormalizado = correo.Trim().ToLowerInvariant();
-
-        return _context.Estudiantes
-            .FirstOrDefaultAsync(estudiante => estudiante.Correo == correoNormalizado);
-    }
-
-    public Task<bool> ExistePorCorreoAsync(string correo)
-    {
-        var correoNormalizado = correo.Trim().ToLowerInvariant();
-
-        return _context.Estudiantes
-            .AnyAsync(estudiante => estudiante.Correo == correoNormalizado);
     }
 
     public Task<bool> ExistePorDocumentoAsync(string documento)

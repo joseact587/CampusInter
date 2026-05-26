@@ -24,4 +24,8 @@
     <ProjectReference Include="..\CampusInter.Domain\CampusInter.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\Migrations\" />
+  </ItemGroup>
+
 </Project>

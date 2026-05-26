@@ -51,11 +51,11 @@ public sealed class EstudianteService : IEstudianteService
         if (!_currentUser.IsAuthenticated)
             throw new UnauthorizedAccessException();
 
-        var usuarioId = _currentUser.UsuarioId;
-        var esEstudianteIdValido = int.TryParse(usuarioId, out var estudianteId);
+        var estudianteIdClaim = _currentUser.EstudianteId;
+        var esEstudianteIdValido = int.TryParse(estudianteIdClaim, out var estudianteId);
 
         if (!esEstudianteIdValido)
-            throw new BusinessValidationException("El usuario autenticado no tiene un identificador valido.", "invalid_authenticated_user");
+            throw new BusinessValidationException("El usuario autenticado no tiene un perfil de estudiante valido.", "invalid_authenticated_student");
 
         return estudianteId;
     }

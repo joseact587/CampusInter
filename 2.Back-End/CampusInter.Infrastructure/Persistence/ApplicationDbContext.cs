@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     }
 
     // DbSets
+    public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Estudiante> Estudiantes => Set<Estudiante>();
     public DbSet<Profesor> Profesores => Set<Profesor>();
     public DbSet<Materia> Materias => Set<Materia>();

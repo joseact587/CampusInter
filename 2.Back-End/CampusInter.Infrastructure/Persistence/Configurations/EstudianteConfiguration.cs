@@ -15,6 +15,9 @@ public class EstudianteConfiguration : IEntityTypeConfiguration<Estudiante>
         builder.HasKey(estudiante => estudiante.EstudianteId);
 
         // Propiedades
+        builder.Property(estudiante => estudiante.UsuarioId)
+            .IsRequired();
+
         builder.Property(estudiante => estudiante.PrimerNombre)
             .IsRequired()
             .HasMaxLength(100);
@@ -29,36 +32,36 @@ public class EstudianteConfiguration : IEntityTypeConfiguration<Estudiante>
         builder.Property(estudiante => estudiante.SegundoApellido)
             .HasMaxLength(100);
 
-        builder.Property(estudiante => estudiante.Correo)
-            .IsRequired()
-            .HasMaxLength(150);
-
         builder.Property(estudiante => estudiante.Documento)
             .IsRequired()
             .HasMaxLength(30);
-
-        builder.Property(estudiante => estudiante.PasswordHash)
-            .IsRequired()
-            .HasMaxLength(500);
 
         builder.Property(estudiante => estudiante.Estado)
             .HasConversion<int>()
             .IsRequired();
 
-        // Índices
-        builder.HasIndex(estudiante => estudiante.Correo)
+        // Indices
+        builder.HasIndex(estudiante => estudiante.UsuarioId)
             .IsUnique();
 
         builder.HasIndex(estudiante => estudiante.Documento)
             .IsUnique();
 
+        // Filtros
+        builder.HasQueryFilter(estudiante => !estudiante.IsDeleted);
+
         // Relaciones
+        builder.HasOne(estudiante => estudiante.Usuario)
+            .WithOne(usuario => usuario.Estudiante)
+            .HasForeignKey<Estudiante>(estudiante => estudiante.UsuarioId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasMany(estudiante => estudiante.Inscripciones)
             .WithOne(inscripcion => inscripcion.Estudiante)
             .HasForeignKey(inscripcion => inscripcion.EstudianteId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        // Navegación
+        // Navegacion
         builder.Navigation(estudiante => estudiante.Inscripciones)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
     }

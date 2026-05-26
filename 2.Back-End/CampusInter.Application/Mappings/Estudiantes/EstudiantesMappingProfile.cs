@@ -16,6 +16,9 @@ public sealed class EstudiantesMappingProfile : Profile
 
         CreateMap<Estudiante, MiPerfilResponse>()
             .ForMember(
+                destino => destino.Correo,
+                opciones => opciones.MapFrom(origen => origen.Usuario.Correo))
+            .ForMember(
                 destino => destino.Estado,
                 opciones => opciones.MapFrom(origen => origen.Estado.ToString()));
     }

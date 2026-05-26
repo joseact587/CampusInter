@@ -10,10 +10,6 @@ public interface IEstudianteRepository
 
     Task<Estudiante?> ObtenerPorIdSinSeguimientoAsync(int estudianteId);
 
-    Task<Estudiante?> ObtenerPorCorreoAsync(string correo);
-
-    Task<bool> ExistePorCorreoAsync(string correo);
-
     Task<bool> ExistePorDocumentoAsync(string documento);
 
     Task AgregarAsync(Estudiante estudiante);

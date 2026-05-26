@@ -31,12 +31,6 @@ namespace CampusInter.Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EstudianteId"));
 
-                    b.Property<string>("Correo")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)")
-                        .HasColumnOrder(6);
-
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2")
                         .HasColumnOrder(9000);
@@ -63,7 +57,7 @@ namespace CampusInter.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("Estado")
                         .HasColumnType("int")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(8);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit")
@@ -78,47 +72,45 @@ namespace CampusInter.Infrastructure.Persistence.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasColumnOrder(9011);
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)")
-                        .HasColumnOrder(8);
-
                     b.Property<string>("PrimerApellido")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(5);
 
                     b.Property<string>("PrimerNombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(3);
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("SegundoApellido")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(6);
 
                     b.Property<string>("SegundoNombre")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(4);
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
 
                     b.HasKey("EstudianteId");
 
-                    b.HasIndex("Correo")
+                    b.HasIndex("Documento")
                         .IsUnique();
 
-                    b.HasIndex("Documento")
+                    b.HasIndex("UsuarioId")
                         .IsUnique();
 
                     b.ToTable("Estudiantes", (string)null);
@@ -356,6 +348,92 @@ namespace CampusInter.Infrastructure.Persistence.Migrations
                     b.ToTable("Profesores", (string)null);
                 });
 
+            modelBuilder.Entity("CampusInter.Domain.Entidades.Usuario", b =>
+                {
+                    b.Property<int>("UsuarioId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UsuarioId"));
+
+                    b.Property<string>("Correo")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnOrder(2);
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2")
+                        .HasColumnOrder(9000);
+
+                    b.Property<string>("CreatedByUserId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(9001);
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2")
+                        .HasColumnOrder(9021);
+
+                    b.Property<string>("DeletedByUserId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(9022);
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int")
+                        .HasColumnOrder(5);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnOrder(9020);
+
+                    b.Property<DateTime?>("LastModifiedAtUtc")
+                        .HasColumnType("datetime2")
+                        .HasColumnOrder(9010);
+
+                    b.Property<string>("LastModifiedByUserId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnOrder(9011);
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnOrder(3);
+
+                    b.Property<int>("Rol")
+                        .HasColumnType("int")
+                        .HasColumnOrder(4);
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnOrder(6);
+
+                    b.HasKey("UsuarioId");
+
+                    b.HasIndex("Correo")
+                        .IsUnique();
+
+                    b.ToTable("Usuarios", (string)null);
+                });
+
+            modelBuilder.Entity("CampusInter.Domain.Entidades.Estudiante", b =>
+                {
+                    b.HasOne("CampusInter.Domain.Entidades.Usuario", "Usuario")
+                        .WithOne("Estudiante")
+                        .HasForeignKey("CampusInter.Domain.Entidades.Estudiante", "UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("CampusInter.Domain.Entidades.Inscripcion", b =>
                 {
                     b.HasOne("CampusInter.Domain.Entidades.Estudiante", "Estudiante")
@@ -415,6 +493,11 @@ namespace CampusInter.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("CampusInter.Domain.Entidades.Profesor", b =>
                 {
                     b.Navigation("Materias");
+                });
+
+            modelBuilder.Entity("CampusInter.Domain.Entidades.Usuario", b =>
+                {
+                    b.Navigation("Estudiante");
                 });
 #pragma warning restore 612, 618
         }
