@@ -1,5 +1,6 @@
 using CampusInter.Application.Interfaces.Persistence;
 using CampusInter.Domain.Entidades;
+using CampusInter.Domain.Enums;
 using CampusInter.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,9 +18,26 @@ public sealed class EstudianteRepository : IEstudianteRepository
     }
 
     // Consultas
+    public async Task<IReadOnlyList<Estudiante>> ObtenerActivosAsync()
+    {
+        return await _context.Estudiantes
+            .AsNoTracking()
+            .Where(estudiante => estudiante.Estado == EstadoEstudiante.Activo)
+            .OrderBy(estudiante => estudiante.PrimerApellido)
+            .ThenBy(estudiante => estudiante.PrimerNombre)
+            .ToListAsync();
+    }
+
     public Task<Estudiante?> ObtenerPorIdAsync(int estudianteId)
     {
         return _context.Estudiantes
+            .FirstOrDefaultAsync(estudiante => estudiante.EstudianteId == estudianteId);
+    }
+
+    public Task<Estudiante?> ObtenerPorIdSinSeguimientoAsync(int estudianteId)
+    {
+        return _context.Estudiantes
+            .AsNoTracking()
             .FirstOrDefaultAsync(estudiante => estudiante.EstudianteId == estudianteId);
     }
 

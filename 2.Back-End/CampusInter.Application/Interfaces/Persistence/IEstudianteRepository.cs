@@ -4,7 +4,11 @@ namespace CampusInter.Application.Interfaces.Persistence;
 
 public interface IEstudianteRepository
 {
+    Task<IReadOnlyList<Estudiante>> ObtenerActivosAsync();
+
     Task<Estudiante?> ObtenerPorIdAsync(int estudianteId);
+
+    Task<Estudiante?> ObtenerPorIdSinSeguimientoAsync(int estudianteId);
 
     Task<Estudiante?> ObtenerPorCorreoAsync(string correo);
 
