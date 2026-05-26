@@ -1,3 +1,4 @@
+using AutoMapper;
 using CampusInter.Application.Common.Exceptions;
 using CampusInter.Application.DTOs.Auth;
 using CampusInter.Application.Interfaces.Persistence;
@@ -14,18 +15,21 @@ public sealed class AuthService : IAuthService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtTokenService _jwtTokenService;
+    private readonly IMapper _mapper;
 
     // Constructores
     public AuthService(
         IEstudianteRepository estudianteRepository,
         IUnitOfWork unitOfWork,
         IPasswordHasher passwordHasher,
-        IJwtTokenService jwtTokenService)
+        IJwtTokenService jwtTokenService,
+        IMapper mapper)
     {
         _estudianteRepository = estudianteRepository;
         _unitOfWork = unitOfWork;
         _passwordHasher = passwordHasher;
         _jwtTokenService = jwtTokenService;
+        _mapper = mapper;
     }
 
     // Metodos de autenticacion
@@ -55,7 +59,11 @@ public sealed class AuthService : IAuthService
 
         await _unitOfWork.SaveChangesAsync();
 
-        return BuildAuthResponse(estudiante);
+        var accessToken = _jwtTokenService.GenerateToken(estudiante);
+
+        return _mapper.Map<AuthResponse>(
+            estudiante,
+            opciones => opciones.Items["AccessToken"] = accessToken);
     }
 
     public async Task<AuthResponse> IniciarSesionAsync(LoginRequest request)
@@ -75,24 +83,10 @@ public sealed class AuthService : IAuthService
         if (!passwordValid)
             throw new BusinessValidationException("Credenciales invalidas.", "invalid_credentials");
 
-        return BuildAuthResponse(estudiante);
-    }
-
-    // Respuesta
-    private AuthResponse BuildAuthResponse(Estudiante estudiante)
-    {
         var accessToken = _jwtTokenService.GenerateToken(estudiante);
 
-        return new AuthResponse
-        {
-            AccessToken = accessToken,
-            EstudianteId = estudiante.EstudianteId,
-            Correo = estudiante.Correo,
-            PrimerNombre = estudiante.PrimerNombre,
-            SegundoNombre = estudiante.SegundoNombre,
-            PrimerApellido = estudiante.PrimerApellido,
-            SegundoApellido = estudiante.SegundoApellido,
-            Estado = estudiante.Estado.ToString()
-        };
+        return _mapper.Map<AuthResponse>(
+            estudiante,
+            opciones => opciones.Items["AccessToken"] = accessToken);
     }
 }

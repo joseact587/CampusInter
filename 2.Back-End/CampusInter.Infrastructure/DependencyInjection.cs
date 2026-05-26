@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IEstudianteRepository, EstudianteRepository>();
         services.AddScoped<IMateriaRepository, MateriaRepository>();
+        services.AddScoped<IInscripcionRepository, InscripcionRepository>();
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
