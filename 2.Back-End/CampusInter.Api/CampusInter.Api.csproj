@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <SpaRoot>..\campusinter.client</SpaRoot>
+    <SpaRoot>..\..\1.Front-End\campusinter.client</SpaRoot>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:54163</SpaProxyServerUrl>
   </PropertyGroup>
@@ -18,10 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CampusInter.Application\CampusInter.Application.csproj" />
-    <ProjectReference Include="..\campusinter.client\campusinter.client.esproj">
+    <ProjectReference Include="..\..\1.Front-End\campusinter.client\campusinter.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\CampusInter.Infraestructure\CampusInter.Infraestructure.csproj" />
+    <ProjectReference Include="..\CampusInter.Infrastructure\CampusInter.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

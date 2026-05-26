@@ -9,6 +9,6 @@
     <Project Path="2.Back-End/CampusInter.Api/CampusInter.Api.csproj" />
     <Project Path="2.Back-End/CampusInter.Application/CampusInter.Application.csproj" />
     <Project Path="2.Back-End/CampusInter.Domain/CampusInter.Domain.csproj" />
-    <Project Path="2.Back-End/CampusInter.Infraestructure/CampusInter.Infraestructure.csproj" />
+    <Project Path="2.Back-End/CampusInter.Infrastructure/CampusInter.Infrastructure.csproj" />
   </Folder>
 </Solution>
