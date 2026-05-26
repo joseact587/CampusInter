@@ -17,9 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CampusInter.Application\CampusInter.Application.csproj" />
     <ProjectReference Include="..\campusinter.client\campusinter.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\CampusInter.Infraestructure\CampusInter.Infraestructure.csproj" />
   </ItemGroup>
 
 </Project>
