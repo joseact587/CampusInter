@@ -1,3 +1,4 @@
+using CampusInter.Application.Interfaces.Persistence;
 using CampusInter.Application.Interfaces.Security;
 using CampusInter.Infrastructure.Persistence;
 using CampusInter.Infrastructure.Persistence.Interceptors;
@@ -22,6 +23,8 @@ public static class DependencyInjection
         services.AddScoped<AuditSaveChangesInterceptor>();
 
         // Persistencia
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
             var auditInterceptor = serviceProvider.GetRequiredService<AuditSaveChangesInterceptor>();

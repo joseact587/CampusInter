@@ -1,3 +1,5 @@
+using CampusInter.Api.Extensions;
+using CampusInter.Api.Middlewares;
 using CampusInter.Infrastructure;
 using CampusInter.Infrastructure.Persistence;
 using CampusInter.Infrastructure.Persistence.Seed;
@@ -5,41 +7,58 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Controladores
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+// Swagger / OpenAPI
+builder.Services.AddOpenApiDocumentation();
+
+// CORS
+builder.Services.AddCorsConfiguration(builder.Configuration);
+
+// JWT Options / JWT Auth preparado
+builder.Services.AddJwtAuth(builder.Configuration);
+
+// Capas
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Manejo global de errores
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
+// Manejo global de errores
+app.UseExceptionHandler();
+
+// Migraciones y seed inicial
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
 
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-    await dbContext.Database.MigrateAsync();
-
-    await ApplicationDbContextSeeder.SeedAsync(dbContext);
+    await db.Database.MigrateAsync();
+    await ApplicationDbContextSeeder.SeedAsync(db);
 }
 
-app.UseDefaultFiles();
-app.MapStaticAssets();
+// Swagger / OpenAPI
+app.UseOpenApiDocumentation();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
+// Seguridad HTTP
 app.UseHttpsRedirection();
 
+// CORS
+app.UseCors(CorsExtensions.PolicyName);
+
+// No usar UseAuthentication todavia si AddAuthentication no esta configurado.
+// Cuando se configure JWT real, agregar:
+// app.UseAuthentication();
+
+// Autorizacion
 app.UseAuthorization();
 
+// Endpoints
 app.MapControllers();
-
-app.MapFallbackToFile("/index.html");
 
 app.Run();
