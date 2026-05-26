@@ -1,4 +1,4 @@
-namespace CampusInter.Api.Options;
+namespace CampusInter.Infrastructure.Options;
 
 public sealed class JwtOptions
 {

@@ -14,9 +14,9 @@ public sealed class UnitOfWork : IUnitOfWork
     }
 
     // Persistencia
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public Task<int> SaveChangesAsync()
     {
-        return _context.SaveChangesAsync(cancellationToken);
+        return _context.SaveChangesAsync();
     }
 
     // Concurrencia

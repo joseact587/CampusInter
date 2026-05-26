@@ -1,5 +1,6 @@
 using CampusInter.Api.Extensions;
 using CampusInter.Api.Middlewares;
+using CampusInter.Application;
 using CampusInter.Infrastructure;
 using CampusInter.Infrastructure.Persistence;
 using CampusInter.Infrastructure.Persistence.Seed;
@@ -20,6 +21,7 @@ builder.Services.AddCorsConfiguration(builder.Configuration);
 builder.Services.AddJwtAuth(builder.Configuration);
 
 // Capas
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 // Manejo global de errores
@@ -51,9 +53,8 @@ app.UseHttpsRedirection();
 // CORS
 app.UseCors(CorsExtensions.PolicyName);
 
-// No usar UseAuthentication todavia si AddAuthentication no esta configurado.
-// Cuando se configure JWT real, agregar:
-// app.UseAuthentication();
+// Autenticacion
+app.UseAuthentication();
 
 // Autorizacion
 app.UseAuthorization();

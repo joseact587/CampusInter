@@ -2,6 +2,7 @@ using CampusInter.Application.Interfaces.Persistence;
 using CampusInter.Application.Interfaces.Security;
 using CampusInter.Infrastructure.Persistence;
 using CampusInter.Infrastructure.Persistence.Interceptors;
+using CampusInter.Infrastructure.Repositories;
 using CampusInter.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ public static class DependencyInjection
 
         // Persistencia
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IEstudianteRepository, EstudianteRepository>();
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
@@ -32,6 +34,10 @@ public static class DependencyInjection
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             options.AddInterceptors(auditInterceptor);
         });
+
+        // Seguridad
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
 
         return services;
     }
