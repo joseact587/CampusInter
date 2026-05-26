@@ -1,4 +1,7 @@
 using CampusInter.Infrastructure;
+using CampusInter.Infrastructure.Persistence;
+using CampusInter.Infrastructure.Persistence.Seed;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,17 @@ builder.Services.AddOpenApi();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    await dbContext.Database.MigrateAsync();
+
+    await ApplicationDbContextSeeder.SeedAsync(dbContext);
+}
 
 app.UseDefaultFiles();
 app.MapStaticAssets();
