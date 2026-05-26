@@ -1,0 +1,4 @@
+/* Alto mínimo de la pantalla */
+main {
+  min-height: 100vh;
+}

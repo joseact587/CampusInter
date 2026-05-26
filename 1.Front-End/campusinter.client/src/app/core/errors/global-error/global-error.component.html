@@ -1,0 +1,7 @@
+@if (errorService.currentMessage()) {
+  <!-- Error global -->
+  <div class="global-error">
+    <span>{{ errorService.currentMessage() }}</span>
+    <button type="button" (click)="errorService.clear()">Cerrar</button>
+  </div>
+}
