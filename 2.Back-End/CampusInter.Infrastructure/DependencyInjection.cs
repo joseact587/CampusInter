@@ -26,6 +26,7 @@ public static class DependencyInjection
         // Persistencia
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IEstudianteRepository, EstudianteRepository>();
+        services.AddScoped<IMateriaRepository, MateriaRepository>();
 
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {

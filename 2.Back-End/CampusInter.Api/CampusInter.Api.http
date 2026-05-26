@@ -1,6 +1,1 @@
 @CampusInter.Server_HostAddress = http://localhost:5127
-
-GET {{CampusInter.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

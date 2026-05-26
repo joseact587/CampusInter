@@ -1,3 +1,5 @@
+using Microsoft.OpenApi;
+
 namespace CampusInter.Api.Extensions;
 
 public static class OpenApiExtensions
@@ -6,7 +8,27 @@ public static class OpenApiExtensions
     {
         // Registro
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            // Bearer
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Ingresa el token JWT en formato: Bearer {token}"
+            });
+
+            options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecuritySchemeReference("Bearer", document, null),
+                    []
+                }
+            });
+        });
 
         return services;
     }
