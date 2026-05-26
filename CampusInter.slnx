@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/1.Front-End/">
+    <Project Path="campusinter.client/campusinter.client.esproj">
+      <Build />
+      <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/2.Back-End/">
+    <Project Path="CampusInter.Application/CampusInter.Application.csproj" />
+    <Project Path="CampusInter.Domain/CampusInter.Domain.csproj" />
+    <Project Path="CampusInter.Infraestructure/CampusInter.Infraestructure.csproj" />
+    <Project Path="CampusInter.Server/CampusInter.Api.csproj" />
+  </Folder>
+</Solution>
