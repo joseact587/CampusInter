@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth/guards/auth.guard';
+import { estudianteActivoGuard } from './core/auth/guards/estudiante-activo.guard';
 import { PrivateLayoutComponent } from './core/layout/private-layout/private-layout.component';
 import { LoginComponent } from './features/auth/pages/login/login.component';
 import { RegistroComponent } from './features/auth/pages/registro/registro.component';
@@ -32,6 +33,7 @@ export const routes: Routes = [
     path: '',
     component: PrivateLayoutComponent,
     canActivate: [authGuard],
+    canActivateChild: [estudianteActivoGuard],
     children: [
       {
         path: 'home',

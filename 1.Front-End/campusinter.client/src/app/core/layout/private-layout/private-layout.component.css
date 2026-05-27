@@ -86,21 +86,6 @@
   color: inherit;
 }
 
-.menu-badge {
-  margin-left: auto;
-  padding: 0.18rem 0.45rem;
-  border-radius: 999px;
-  background: #ffe6d8;
-  color: #d64208;
-  font-size: 0.68rem;
-  font-weight: 800;
-}
-
-.menu-item.active .menu-badge {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-}
-
 .sidebar-footer {
   margin-top: auto;
   padding: 1rem;

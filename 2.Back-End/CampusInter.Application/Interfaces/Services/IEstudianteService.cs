@@ -11,4 +11,7 @@ public interface IEstudianteService
     Task<MiPerfilResponse> ActualizarMiPerfilAsync(ActualizarMiPerfilRequest request);
 
     Task InhabilitarMiPerfilAsync();
+
+    Task HabilitarMiPerfilAsync();
+
 }

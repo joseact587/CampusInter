@@ -53,4 +53,12 @@ public sealed class EstudiantesController : ControllerBase
 
         return NoContent();
     }
+    [HttpPatch("me/habilitar")]
+    public async Task<IActionResult> HabilitarMiPerfil()
+    {
+        await _estudianteService.HabilitarMiPerfilAsync();
+
+        return NoContent();
+    }
+
 }

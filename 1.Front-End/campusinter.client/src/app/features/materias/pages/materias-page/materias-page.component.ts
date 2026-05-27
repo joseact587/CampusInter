@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCircleCheck, faCircleExclamation, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { catchError, forkJoin, of, throwError } from 'rxjs';
+import { ErrorService } from '../../../../core/errors/error.service';
+import { EstudianteService } from '../../../estudiantes/services/estudiante.service';
 import { CrearInscripcionRequest, InscripcionResponse } from '../../../inscripciones/models/inscripcion.models';
 import { InscripcionService } from '../../../inscripciones/services/inscripcion.service';
 import { MateriaResponse } from '../../models/materia.models';
@@ -24,6 +26,8 @@ export class MateriasPageComponent implements OnInit {
   //--Inyecciones
   private readonly materiaService = inject(MateriaService);
   private readonly inscripcionService = inject(InscripcionService);
+  private readonly estudianteService = inject(EstudianteService);
+  private readonly errorService = inject(ErrorService);
   private readonly router = inject(Router);
 
   //--Variables
@@ -31,6 +35,7 @@ export class MateriasPageComponent implements OnInit {
   miInscripcion: InscripcionResponse | null = null;
   materiasSeleccionadas: MateriaResponse[] = [];
   tieneInscripcionActiva = false;
+  estudianteActivo = true;
   isLoading = false;
 
   readonly faCircleCheck = faCircleCheck;
@@ -75,14 +80,16 @@ export class MateriasPageComponent implements OnInit {
 
     forkJoin({
       materias: this.materiaService.getMaterias(),
+      perfil: this.estudianteService.getMiPerfil(),
       inscripcion: this.inscripcionService.getMiInscripcion(true).pipe(
         catchError(error => this.manejarErrorMiInscripcion(error))
       )
     }).subscribe({
-      next: ({ materias, inscripcion }) => {
+      next: ({ materias, perfil, inscripcion }) => {
         this.materias = materias;
         this.miInscripcion = inscripcion;
         this.tieneInscripcionActiva = inscripcion !== null;
+        this.estudianteActivo = perfil.estado.toLowerCase() === 'activo';
         this.isLoading = false;
       },
       error: () => {
@@ -111,7 +118,7 @@ export class MateriasPageComponent implements OnInit {
 
   // Define si una materia puede agregarse a la selección actual.
   puedeSeleccionarMateria(materia: MateriaResponse): boolean {
-    if (this.tieneInscripcionActiva) {
+    if (this.tieneInscripcionActiva || !this.estudianteActivo) {
       return false;
     }
 
@@ -128,7 +135,7 @@ export class MateriasPageComponent implements OnInit {
 
   // Agrega o quita una materia respetando las reglas de inscripción.
   alternarMateria(materia: MateriaResponse): void {
-    if (this.tieneInscripcionActiva) {
+    if (this.tieneInscripcionActiva || !this.estudianteActivo) {
       return;
     }
 
@@ -151,6 +158,11 @@ export class MateriasPageComponent implements OnInit {
 
   // Crea la inscripción cuando hay exactamente tres materias válidas.
   confirmarInscripcion(): void {
+    if (!this.estudianteActivo) {
+      this.errorService.mostrarError('Tu perfil está inactivo. No puedes crear una inscripción.');
+      return;
+    }
+
     if (this.cantidadSeleccionada !== 3) {
       return;
     }

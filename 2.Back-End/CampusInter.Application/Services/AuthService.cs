@@ -94,8 +94,8 @@ public sealed class AuthService : IAuthService
         if (usuario.Estudiante is null)
             throw new BusinessValidationException("El usuario no tiene un perfil de estudiante asociado.", "student_profile_not_found");
 
-        if (!usuario.Estudiante.EstaActivo())
-            throw new BusinessValidationException("El estudiante se encuentra inactivo.", "student_inactive");
+        //if (!usuario.Estudiante.EstaActivo())
+        //    throw new BusinessValidationException("El estudiante se encuentra inactivo.", "student_inactive");
 
         var passwordValid = _passwordHasher.Verify(usuario.PasswordHash, request.Password);
 

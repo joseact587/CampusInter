@@ -1,7 +1,12 @@
-@if (errorService.currentMessage()) {
-  <!-- Error global -->
-  <div class="global-error">
-    <span>{{ errorService.currentMessage() }}</span>
-    <button type="button" (click)="errorService.clear()">Cerrar</button>
+@if (errorService.currentAlert(); as alert) {
+  <!-- Alerta global temporal -->
+  <div
+    class="global-alert"
+    [class.global-alert-error]="alert.type === 'error'"
+    [class.global-alert-success]="alert.type === 'success'"
+    [class.global-alert-info]="alert.type === 'info'"
+  >
+    <span>{{ alert.message }}</span>
+    <button type="button" aria-label="Cerrar alerta" (click)="errorService.clear()">Cerrar</button>
   </div>
 }

@@ -31,4 +31,9 @@ export class EstudianteService {
   inhabilitarMiPerfil(): Observable<void> {
     return this.http.patch<void>(API_ROUTES.estudiantes.inhabilitarMe, {});
   }
+
+  // Habilita el perfil académico del estudiante autenticado.
+  habilitarMiPerfil(): Observable<void> {
+    return this.http.patch<void>(API_ROUTES.estudiantes.habilitarMe, {});
+  }
 }

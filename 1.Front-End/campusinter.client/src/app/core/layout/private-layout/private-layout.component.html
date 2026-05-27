@@ -12,26 +12,27 @@
     </header>
 
     <nav class="sidebar-menu" aria-label="Menú principal">
-      <a class="menu-item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-        <fa-icon class="menu-icon" [icon]="faHouse"></fa-icon>
-        <span>Panel principal</span>
-      </a>
+      @if (estudianteActivo()) {
+        <a class="menu-item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <fa-icon class="menu-icon" [icon]="faHouse"></fa-icon>
+          <span>Panel principal</span>
+        </a>
 
-      <a class="menu-item" routerLink="/materias" routerLinkActive="active">
-        <fa-icon class="menu-icon" [icon]="faBookOpen"></fa-icon>
-        <span>Inscribir materias</span>
-      </a>
+        <a class="menu-item" routerLink="/materias" routerLinkActive="active">
+          <fa-icon class="menu-icon" [icon]="faBookOpen"></fa-icon>
+          <span>Inscribir materias</span>
+        </a>
 
-      <a class="menu-item" routerLink="/mi-inscripcion" routerLinkActive="active">
-        <fa-icon class="menu-icon" [icon]="faBookBookmark"></fa-icon>
-        <span>Mi Inscripción</span>
-        <span class="menu-badge">Activa</span>
-      </a>
+        <a class="menu-item" routerLink="/mi-inscripcion" routerLinkActive="active">
+          <fa-icon class="menu-icon" [icon]="faBookBookmark"></fa-icon>
+          <span>Mi Inscripción</span>
+        </a>
 
-      <a class="menu-item" routerLink="/estudiantes" routerLinkActive="active">
-        <fa-icon class="menu-icon" [icon]="faUsers"></fa-icon>
-        <span>Estudiantes</span>
-      </a>
+        <a class="menu-item" routerLink="/estudiantes" routerLinkActive="active">
+          <fa-icon class="menu-icon" [icon]="faUsers"></fa-icon>
+          <span>Estudiantes</span>
+        </a>
+      }
 
       <a class="menu-item" routerLink="/mi-perfil" routerLinkActive="active">
         <fa-icon class="menu-icon" [icon]="faUser"></fa-icon>

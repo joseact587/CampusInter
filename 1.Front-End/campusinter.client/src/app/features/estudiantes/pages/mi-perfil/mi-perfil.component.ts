@@ -3,9 +3,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCircleCheck, faEnvelope, faIdCard, faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCircleCheck, faEnvelope, faSave, faTrash } from '@fortawesome/free-solid-svg-icons';
+
 import { AuthService } from '../../../../core/auth/services/auth.service';
 import { CurrentUserStore } from '../../../../core/auth/services/current-user.store';
+import { ErrorService } from '../../../../core/errors/error.service';
 import { ActualizarMiPerfilRequest, MiPerfilResponse } from '../../models/estudiante.models';
 import { EstudianteService } from '../../services/estudiante.service';
 
@@ -33,6 +35,7 @@ export class MiPerfilComponent implements OnInit {
   private readonly estudianteService = inject(EstudianteService);
   private readonly currentUserStore = inject(CurrentUserStore);
   private readonly authService = inject(AuthService);
+  private readonly errorService = inject(ErrorService);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
 
@@ -43,11 +46,9 @@ export class MiPerfilComponent implements OnInit {
   readonly faSave = faSave;
   readonly faTrash = faTrash;
   readonly faCircleCheck = faCircleCheck;
-  readonly faIdCard = faIdCard;
   readonly faEnvelope = faEnvelope;
 
   //--Formularios
-  // Formulario para editar los datos visibles del perfil.
   readonly form = this.fb.nonNullable.group({
     primerNombre: ['', [Validators.required]],
     segundoNombre: [''],
@@ -58,18 +59,17 @@ export class MiPerfilComponent implements OnInit {
   });
 
   //--Métodos
-  // Carga el perfil al abrir la pantalla.
   ngOnInit(): void {
     this.cargarPerfil();
   }
 
-  // Consulta el perfil del estudiante autenticado.
   cargarPerfil(): void {
     this.isLoading = true;
 
     this.estudianteService.getMiPerfil().subscribe({
       next: perfil => {
         this.establecerPerfil(perfil);
+        this.actualizarUsuarioActual(perfil);
         this.isLoading = false;
       },
       error: () => {
@@ -78,7 +78,6 @@ export class MiPerfilComponent implements OnInit {
     });
   }
 
-  // Obtiene el nombre completo para mostrar en la card de perfil.
   obtenerNombreCompleto(): string {
     if (!this.perfil) {
       return 'Estudiante';
@@ -87,7 +86,6 @@ export class MiPerfilComponent implements OnInit {
     return this.armarNombreCompleto(this.perfil);
   }
 
-  // Calcula iniciales para el avatar del perfil.
   obtenerIniciales(): string {
     const palabras = this.obtenerNombreCompleto()
       .split(' ')
@@ -104,12 +102,10 @@ export class MiPerfilComponent implements OnInit {
       .join('');
   }
 
-  // Indica si la cuenta del estudiante está activa.
   estaActivo(): boolean {
-    return this.perfil?.estado.toLowerCase() === 'activo';
+    return this.perfil?.estado?.toLowerCase() === 'activo';
   }
 
-  // Guarda los cambios del perfil y actualiza el usuario actual en memoria.
   guardarCambios(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -117,12 +113,12 @@ export class MiPerfilComponent implements OnInit {
     }
 
     const rawValue = this.form.getRawValue();
+
     const request: ActualizarMiPerfilRequest = {
       primerNombre: rawValue.primerNombre,
       segundoNombre: rawValue.segundoNombre || null,
       primerApellido: rawValue.primerApellido,
       segundoApellido: rawValue.segundoApellido || null,
-      correo: rawValue.correo,
       documento: rawValue.documento
     };
 
@@ -133,6 +129,7 @@ export class MiPerfilComponent implements OnInit {
         this.establecerPerfil(perfil);
         this.actualizarUsuarioActual(perfil);
         this.form.markAsPristine();
+        this.errorService.mostrarExito('Datos actualizados correctamente.');
         this.isLoading = false;
       },
       error: () => {
@@ -141,9 +138,10 @@ export class MiPerfilComponent implements OnInit {
     });
   }
 
-  // Inhabilita el perfil académico y cierra la sesión local.
   inhabilitarCuenta(): void {
-    const confirmed = confirm('¿Seguro que quieres inhabilitar tu cuenta? No podrás iniciar sesión nuevamente.');
+    const confirmed = confirm(
+      '¿Seguro que quieres inhabilitar tu cuenta? No podrás usar el portal académico mientras esté inactiva.'
+    );
 
     if (!confirmed) {
       return;
@@ -153,9 +151,9 @@ export class MiPerfilComponent implements OnInit {
 
     this.estudianteService.inhabilitarMiPerfil().subscribe({
       next: () => {
-        this.authService.cerrarSesion();
         this.isLoading = false;
-        void this.router.navigate(['/login']);
+        this.errorService.mostrarError('Cuenta inhabilitada correctamente.');
+        this.cargarPerfil();
       },
       error: () => {
         this.isLoading = false;
@@ -163,16 +161,35 @@ export class MiPerfilComponent implements OnInit {
     });
   }
 
-  // Valida si un campo debe mostrar un error visual.
+  habilitarCuenta(): void {
+    const confirmed = confirm('¿Seguro que quieres habilitar tu cuenta nuevamente?');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.estudianteService.habilitarMiPerfil().subscribe({
+      next: () => {
+        this.errorService.mostrarExito('Cuenta habilitada correctamente.');
+        this.cargarPerfil();
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
   mostrarError(controlName: PerfilControlName, errorName: string): boolean {
     const control = this.form.controls[controlName];
 
     return control.touched && control.hasError(errorName);
   }
 
-  // Actualiza el estado local del perfil y sincroniza el formulario.
   private establecerPerfil(perfil: MiPerfilResponse): void {
     this.perfil = perfil;
+
     this.form.patchValue({
       primerNombre: perfil.primerNombre,
       segundoNombre: perfil.segundoNombre ?? '',
@@ -181,9 +198,10 @@ export class MiPerfilComponent implements OnInit {
       correo: perfil.correo,
       documento: perfil.documento
     });
+
+    this.actualizarUsuarioActual(perfil);
   }
 
-  // Actualiza el usuario guardado para reflejar nombre y correo nuevos.
   private actualizarUsuarioActual(perfil: MiPerfilResponse): void {
     const currentUser = this.currentUserStore.currentUser();
 
@@ -193,13 +211,11 @@ export class MiPerfilComponent implements OnInit {
 
     this.currentUserStore.establecerUsuario({
       ...currentUser,
-      correo: perfil.correo,
       displayName: this.armarNombreCompleto(perfil),
       estado: perfil.estado
     });
   }
 
-  // Arma el nombre completo ignorando campos vacíos.
   private armarNombreCompleto(perfil: MiPerfilResponse): string {
     return [
       perfil.primerNombre,

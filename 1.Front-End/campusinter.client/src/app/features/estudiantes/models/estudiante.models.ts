@@ -26,6 +26,5 @@ export interface ActualizarMiPerfilRequest {
   segundoNombre?: string | null;
   primerApellido: string;
   segundoApellido?: string | null;
-  correo: string;
   documento: string;
 }

@@ -36,6 +36,12 @@ export class PrivateLayoutComponent {
   //--Variables
   readonly currentUser = this.currentUserStore.currentUser;
 
+  readonly estudianteActivo = computed(() => {
+    const estado = this.currentUser()?.estado ?? '';
+
+    return estado.toLowerCase() === 'activo';
+  });
+
   readonly initials = computed(() => {
     const displayName = this.currentUser()?.displayName ?? '';
     const words = displayName

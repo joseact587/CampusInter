@@ -27,6 +27,7 @@ export const API_ROUTES = {
     getAll: `${API_BASE_URL}/api/estudiantes`,
     me: `${API_BASE_URL}/api/estudiantes/me`,
     updateMe: `${API_BASE_URL}/api/estudiantes/me`,
-    inhabilitarMe: `${API_BASE_URL}/api/estudiantes/me/inhabilitar`
+    inhabilitarMe: `${API_BASE_URL}/api/estudiantes/me/inhabilitar`,
+    habilitarMe: `${API_BASE_URL}/api/estudiantes/me/habilitar`
   }
 } as const;

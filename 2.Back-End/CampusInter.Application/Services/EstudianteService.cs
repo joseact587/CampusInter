@@ -11,21 +11,21 @@ public sealed class EstudianteService : IEstudianteService
 {
     // Atributos
     private readonly IEstudianteRepository _estudianteRepository;
-    private readonly IUsuarioRepository _usuarioRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly ICurrentUser _currentUser;
     private readonly IMapper _mapper;
+    private readonly IInscripcionRepository _inscripcionRepository;
 
     // Constructores
     public EstudianteService(
         IEstudianteRepository estudianteRepository,
-        IUsuarioRepository usuarioRepository,
+        IInscripcionRepository inscripcionRepository,
         IUnitOfWork unitOfWork,
         ICurrentUser currentUser,
         IMapper mapper)
     {
         _estudianteRepository = estudianteRepository;
-        _usuarioRepository = usuarioRepository;
+        _inscripcionRepository = inscripcionRepository;
         _unitOfWork = unitOfWork;
         _currentUser = currentUser;
         _mapper = mapper;
@@ -60,14 +60,6 @@ public sealed class EstudianteService : IEstudianteService
         if (estudiante is null)
             throw new NotFoundException("El estudiante autenticado no existe.", "student_not_found");
 
-        var correoNormalizado = request.Correo.Trim().ToLowerInvariant();
-        var correoExisteEnOtroUsuario = await _usuarioRepository.ExistePorCorreoEnOtroUsuarioAsync(
-            correoNormalizado,
-            estudiante.UsuarioId);
-
-        if (correoExisteEnOtroUsuario)
-            throw new ConflictException("Ya existe un usuario registrado con este correo.", "user_email_already_exists");
-
         var documentoExisteEnOtroEstudiante = await _estudianteRepository.ExistePorDocumentoEnOtroEstudianteAsync(
             request.Documento,
             estudiante.EstudianteId);
@@ -81,8 +73,6 @@ public sealed class EstudianteService : IEstudianteService
             request.PrimerApellido,
             request.SegundoApellido,
             request.Documento);
-
-        estudiante.Usuario.CambiarCorreo(correoNormalizado);
 
         await _unitOfWork.SaveChangesAsync();
 
@@ -98,7 +88,28 @@ public sealed class EstudianteService : IEstudianteService
         if (estudiante is null)
             throw new NotFoundException("El estudiante autenticado no existe.", "student_not_found");
 
+        var tieneInscripcionActiva = await _inscripcionRepository.TieneInscripcionActivaAsync(estudianteId);
+
+        if (tieneInscripcionActiva)
+            throw new ConflictException(
+                "El estudiante no se puede inactivar porque tiene una inscripción activa.",
+                "student_has_active_enrollment");
+
         estudiante.Desactivar();
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task HabilitarMiPerfilAsync()
+    {
+        var estudianteId = ObtenerEstudianteIdAutenticado();
+
+        var estudiante = await _estudianteRepository.ObtenerPorIdAsync(estudianteId);
+
+        if (estudiante is null)
+            throw new NotFoundException("El estudiante autenticado no existe.", "student_not_found");
+
+       estudiante.Activar();
 
         await _unitOfWork.SaveChangesAsync();
     }

@@ -15,10 +15,6 @@ public sealed class ActualizarMiPerfilRequest
 
     public string? SegundoApellido { get; init; }
 
-    [Required(ErrorMessage = "El correo es obligatorio.")]
-    [EmailAddress(ErrorMessage = "El correo no tiene un formato válido.")]
-    public string Correo { get; init; } = string.Empty;
-
     [Required(ErrorMessage = "El documento es obligatorio.")]
     public string Documento { get; init; } = string.Empty;
 }

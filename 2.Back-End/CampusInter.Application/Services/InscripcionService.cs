@@ -15,6 +15,7 @@ public sealed class InscripcionService : IInscripcionService
     private readonly IEstudianteRepository _estudianteRepository;
     private readonly IMateriaRepository _materiaRepository;
     private readonly IInscripcionRepository _inscripcionRepository;
+
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
