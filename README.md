@@ -4,6 +4,24 @@ CampusInter es una aplicación académica para registro de estudiantes, autentic
 
 El proyecto está dividido en backend con Clean Architecture y frontend Angular standalone.
 
+## Menú
+
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Migración y Base de Datos](#migración-y-base-de-datos)
+- [Cómo Ejecutar el Proyecto](#cómo-ejecutar-el-proyecto)
+- [Credenciales Iniciales](#credenciales-iniciales)
+- [Datos del Seeder](#datos-del-seeder)
+- [Arquitectura](#arquitectura)
+- [Patrones y Decisiones Técnicas](#patrones-y-decisiones-técnicas)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Funcionalidades Principales](#funcionalidades-principales)
+- [Endpoints Principales](#endpoints-principales)
+- [Reglas de Negocio](#reglas-de-negocio)
+- [Frontend](#frontend)
+- [Seguridad](#seguridad)
+- [Comandos Útiles](#comandos-útiles)
+- [Estado del Proyecto](#estado-del-proyecto)
+
 ## Tecnologías Utilizadas
 
 ### Backend
@@ -74,13 +92,13 @@ Esto significa que al correr el backend en desarrollo:
 
 ### Crear una Nueva Migración
 
-Si cambias el modelo de dominio o configuración de Entity Framework:
+Si se cambia el modelo de dominio o la configuración de Entity Framework:
 
 ```bash
 dotnet ef migrations add NombreDeLaMigracion --project ./2.Back-End/CampusInter.Infrastructure/CampusInter.Infrastructure.csproj --startup-project ./2.Back-End/CampusInter.Api/CampusInter.Api.csproj --output-dir Persistence/Migrations
 ```
 
-Luego aplica la migración:
+Luego se aplica la migración:
 
 ```bash
 dotnet ef database update --project ./2.Back-End/CampusInter.Infrastructure/CampusInter.Infrastructure.csproj --startup-project ./2.Back-End/CampusInter.Api/CampusInter.Api.csproj
@@ -142,7 +160,7 @@ export const environment = {
 };
 ```
 
-## Credenciales de Prueba
+## Credenciales Iniciales
 
 El seeder crea estudiantes con la contraseña:
 
@@ -171,10 +189,10 @@ El seeder crea:
 Nota importante:
 
 - La materia `Matematicas` se crea en el catálogo.
-- Ninguna inscripción del seed selecciona `Matematicas`.
-- Esto permite probar una materia disponible sin estudiantes inscritos.
+- Ninguna inscripción inicial selecciona `Matematicas`.
+- Esto deja una materia disponible sin estudiantes inscritos.
 
-El seeder es idempotente: si ya existen registros en las tablas principales, no duplica datos. Si necesitas ver el seed limpio, debes limpiar o recrear la base de datos.
+El seeder es idempotente: si ya existen registros en las tablas principales, no duplica datos. Si se necesita cargar el seed desde cero, se debe limpiar o recrear la base de datos.
 
 ## Arquitectura
 
@@ -383,9 +401,9 @@ cd ./1.Front-End/campusinter.client
 npm run build
 ```
 
-## Estado Actual
+## Estado del Proyecto
 
-El flujo principal ya está implementado:
+El flujo principal implementado incluye:
 
 1. Registro o login.
 2. Consulta del panel principal.
@@ -398,11 +416,3 @@ El flujo principal ya está implementado:
 9. Consulta de estudiantes.
 10. Consulta y actualización del perfil.
 11. Habilitación e inhabilitación del estudiante.
-
-## Notas Para Entrevista
-
-Una forma corta de explicar el proyecto:
-
-> CampusInter es una aplicación académica construida con Clean Architecture. Separé identidad de acceso (`Usuario`) del perfil académico (`Estudiante`), implementé autenticación JWT, autorización por roles, reglas de dominio para inscripción académica y un frontend Angular standalone con guards, interceptores, signals y manejo global de alertas.
-
-La decisión más importante fue separar `Usuario` de `Estudiante`, porque permite que el sistema crezca hacia otros roles como administrador o profesor sin mezclar autenticación con datos académicos.
