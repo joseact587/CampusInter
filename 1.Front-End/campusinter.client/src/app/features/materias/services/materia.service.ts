@@ -14,6 +14,6 @@ export class MateriaService {
   //--Métodos
   // Consulta el catálogo de materias disponibles.
   getMaterias(): Observable<MateriaResponse[]> {
-    return this.http.get<MateriaResponse[]>(API_ROUTES.materias.getAll);
+    return this.http.get<MateriaResponse[]>(API_ROUTES.materias.obtenerTodas);
   }
 }

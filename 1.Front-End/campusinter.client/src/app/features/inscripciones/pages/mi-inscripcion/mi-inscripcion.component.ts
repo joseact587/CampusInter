@@ -9,9 +9,11 @@ import {
   faChevronDown,
   faChevronUp,
   faGraduationCap,
+  faTrash,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { catchError, of, switchMap, throwError } from 'rxjs';
+import { ErrorService } from '../../../../core/errors/error.service';
 import { CompaneroResponse, InscripcionResponse, MateriaCompanerosResponse } from '../../models/inscripcion.models';
 import { InscripcionService } from '../../services/inscripcion.service';
 
@@ -29,6 +31,7 @@ export class MiInscripcionComponent implements OnInit {
   //--Inyecciones
   private readonly router = inject(Router);
   private readonly inscripcionService = inject(InscripcionService);
+  private readonly errorService = inject(ErrorService);
 
   //--Variables
   inscripcion: InscripcionResponse | null = null;
@@ -42,6 +45,7 @@ export class MiInscripcionComponent implements OnInit {
   readonly faChevronUp = faChevronUp;
   readonly faUser = faUser;
   readonly faGraduationCap = faGraduationCap;
+  readonly faTrash = faTrash;
 
   //--Métodos
   // Carga la inscripción y sus compañeros al abrir la pantalla.
@@ -139,6 +143,30 @@ export class MiInscripcionComponent implements OnInit {
   // Navega a la pantalla para inscribir materias.
   goToMaterias(): void {
     void this.router.navigate(['/materias']);
+  }
+
+  // Cancela la inscripción activa para permitir una nueva selección de materias.
+  cancelarInscripcion(): void {
+    const confirmed = confirm('¿Seguro que quieres cancelar tu inscripción actual? Podrás inscribir materias nuevamente.');
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.isLoading = true;
+
+    this.inscripcionService.cancelarMiInscripcion().subscribe({
+      next: () => {
+        this.inscripcion = null;
+        this.companerosPorMateria = [];
+        this.expandedMateriaIds.clear();
+        this.errorService.mostrarExito('Inscripción cancelada correctamente.');
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
   }
 
   // Formatea la fecha de inscripción para mostrarla en español.

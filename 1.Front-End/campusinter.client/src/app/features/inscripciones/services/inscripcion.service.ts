@@ -16,7 +16,7 @@ export class InscripcionService {
   // Consulta la inscripción activa del estudiante autenticado.
   getMiInscripcion(omitirErrorGlobal = false): Observable<InscripcionResponse> {
     return this.http.get<InscripcionResponse>(
-      API_ROUTES.inscripciones.myEnrollment,
+      API_ROUTES.inscripciones.miInscripcion,
       {
         context: this.construirContexto(omitirErrorGlobal)
       }
@@ -25,13 +25,18 @@ export class InscripcionService {
 
   // Crea la inscripción del estudiante autenticado.
   crearInscripcion(request: CrearInscripcionRequest): Observable<InscripcionResponse> {
-    return this.http.post<InscripcionResponse>(API_ROUTES.inscripciones.create, request);
+    return this.http.post<InscripcionResponse>(API_ROUTES.inscripciones.crear, request);
+  }
+
+  // Cancela la inscripción activa del estudiante autenticado.
+  cancelarMiInscripcion(): Observable<void> {
+    return this.http.delete<void>(API_ROUTES.inscripciones.cancelarMiInscripcion);
   }
 
   // Consulta los compañeros agrupados por materia.
   getCompanerosPorMiInscripcion(omitirErrorGlobal = false): Observable<MateriaCompanerosResponse[]> {
     return this.http.get<MateriaCompanerosResponse[]>(
-      API_ROUTES.inscripciones.classmates,
+      API_ROUTES.inscripciones.companeros,
       {
         context: this.construirContexto(omitirErrorGlobal)
       }

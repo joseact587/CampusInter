@@ -45,4 +45,12 @@ public sealed class InscripcionesController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpDelete("mi-inscripcion")]
+    public async Task<IActionResult> CancelarMiInscripcion()
+    {
+        await _inscripcionService.CancelarMiInscripcionAsync();
+
+        return NoContent();
+    }
 }

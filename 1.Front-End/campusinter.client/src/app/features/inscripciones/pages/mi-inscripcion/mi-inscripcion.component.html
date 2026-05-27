@@ -4,14 +4,21 @@
       <h1>Mi Inscripción</h1>
 
       @if (inscripcion; as inscripcionActiva) {
-      <p>Registrada el {{ formatearFecha(inscripcionActiva.fechaInscripcion) }}</p>
+        <p>Registrada el {{ formatearFecha(inscripcionActiva.fechaInscripcion) }}</p>
       }
     </div>
 
     @if (inscripcion; as inscripcionActiva) {
-      <div class="credits-badge">
-        <strong>{{ inscripcionActiva.totalCreditos }}</strong>
-        <span>créditos</span>
+      <div class="header-actions">
+        <button class="cancel-enrollment-button" type="button" [disabled]="isLoading" (click)="cancelarInscripcion()">
+          <fa-icon [icon]="faTrash"></fa-icon>
+          Cancelar inscripción
+        </button>
+
+        <div class="credits-badge">
+          <strong>{{ inscripcionActiva.totalCreditos }}</strong>
+          <span>créditos</span>
+        </div>
       </div>
     }
   </header>
@@ -55,25 +62,25 @@
 
                 <div class="subject-meta">
                   <span class="subject-credits">{{ materia.creditos }} créditos</span>
-                <span class="subject-classmates-count">{{ obtenerTextoCompaneros(materia.materiaId) }}</span>
+                  <span class="subject-classmates-count">{{ obtenerTextoCompaneros(materia.materiaId) }}</span>
                 </div>
               </div>
 
-            <button class="classmates-toggle" type="button" (click)="alternarCompaneros(materia.materiaId)">
+              <button class="classmates-toggle" type="button" (click)="alternarCompaneros(materia.materiaId)">
                 <span>Compañeros</span>
-              <fa-icon [icon]="estaExpandida(materia.materiaId) ? faChevronUp : faChevronDown"></fa-icon>
+                <fa-icon [icon]="estaExpandida(materia.materiaId) ? faChevronUp : faChevronDown"></fa-icon>
               </button>
             </div>
 
-          @if (estaExpandida(materia.materiaId)) {
+            @if (estaExpandida(materia.materiaId)) {
               <div class="classmates-panel">
                 <h3 class="classmates-title">COMPAÑEROS EN ESTA MATERIA</h3>
 
-              @if (obtenerCompaneros(materia.materiaId).length > 0) {
+                @if (obtenerCompaneros(materia.materiaId).length > 0) {
                   <div class="classmates-list">
-                  @for (companero of obtenerCompaneros(materia.materiaId); track companero.nombreCompleto) {
+                    @for (companero of obtenerCompaneros(materia.materiaId); track companero.nombreCompleto) {
                       <span class="classmate-chip">
-                      <span class="classmate-avatar">{{ obtenerIniciales(companero.nombreCompleto) }}</span>
+                        <span class="classmate-avatar">{{ obtenerIniciales(companero.nombreCompleto) }}</span>
                         <span class="classmate-name">{{ companero.nombreCompleto }}</span>
                       </span>
                     }

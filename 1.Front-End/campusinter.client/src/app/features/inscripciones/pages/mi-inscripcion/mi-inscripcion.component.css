@@ -25,6 +25,35 @@
   color: #039855;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.cancel-enrollment-button {
+  min-height: 42px;
+  padding: 0 1rem;
+  border-radius: 12px;
+  border: 1px solid #fca5a5;
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.cancel-enrollment-button:hover {
+  background: #fff1f2;
+}
+
+.cancel-enrollment-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .credits-badge strong {
   display: block;
   font-size: 1.3rem;
@@ -281,6 +310,16 @@
 @media (max-width: 760px) {
   .page-header {
     flex-direction: column;
+  }
+
+  .header-actions {
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .cancel-enrollment-button {
+    justify-content: center;
   }
 
   .subject-main {

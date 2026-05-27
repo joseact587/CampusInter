@@ -138,6 +138,20 @@ public sealed class InscripcionService : IInscripcionService
             .ToList();
     }
 
+    public async Task CancelarMiInscripcionAsync()
+    {
+        var estudianteId = ObtenerEstudianteIdAutenticado();
+
+        var inscripcion = await _inscripcionRepository.ObtenerActivaPorEstudianteIdAsync(estudianteId);
+
+        if (inscripcion is null)
+            throw new NotFoundException("El estudiante no tiene una inscripcion activa.", "active_enrollment_not_found");
+
+        inscripcion.Cancelar();
+
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     // Usuario autenticado
     private int ObtenerEstudianteIdAutenticado()
     {

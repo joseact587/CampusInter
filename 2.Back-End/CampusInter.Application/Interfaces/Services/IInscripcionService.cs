@@ -9,4 +9,6 @@ public interface IInscripcionService
     Task<InscripcionResponse> ObtenerMiInscripcionAsync();
 
     Task<IReadOnlyList<MateriaCompanerosResponse>> ObtenerCompanerosPorMiInscripcionAsync();
+
+    Task CancelarMiInscripcionAsync();
 }

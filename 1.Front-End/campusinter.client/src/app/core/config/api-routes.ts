@@ -12,22 +12,23 @@ export const API_ROUTES = {
 
   // Materias disponibles
   materias: {
-    getAll: `${API_BASE_URL}/api/materias`
+    obtenerTodas: `${API_BASE_URL}/api/materias`
   },
 
   // Inscripciones del estudiante
   inscripciones: {
-    create: `${API_BASE_URL}/api/inscripciones`,
-    myEnrollment: `${API_BASE_URL}/api/inscripciones/mi-inscripcion`,
-    classmates: `${API_BASE_URL}/api/inscripciones/mi-inscripcion/companeros`
+    crear: `${API_BASE_URL}/api/inscripciones`,
+    miInscripcion: `${API_BASE_URL}/api/inscripciones/mi-inscripcion`,
+    cancelarMiInscripcion: `${API_BASE_URL}/api/inscripciones/mi-inscripcion`,
+    companeros: `${API_BASE_URL}/api/inscripciones/mi-inscripcion/companeros`
   },
 
   // Estudiantes
   estudiantes: {
-    getAll: `${API_BASE_URL}/api/estudiantes`,
-    me: `${API_BASE_URL}/api/estudiantes/me`,
-    updateMe: `${API_BASE_URL}/api/estudiantes/me`,
-    inhabilitarMe: `${API_BASE_URL}/api/estudiantes/me/inhabilitar`,
-    habilitarMe: `${API_BASE_URL}/api/estudiantes/me/habilitar`
+    obtenerTodos: `${API_BASE_URL}/api/estudiantes`,
+    miPerfil: `${API_BASE_URL}/api/estudiantes/me`,
+    actualizarMiPerfil: `${API_BASE_URL}/api/estudiantes/me`,
+    inhabilitarMiPerfil: `${API_BASE_URL}/api/estudiantes/me/inhabilitar`,
+    habilitarMiPerfil: `${API_BASE_URL}/api/estudiantes/me/habilitar`
   }
 } as const;

@@ -14,26 +14,26 @@ export class EstudianteService {
   //--Métodos
   // Lista los estudiantes activos registrados.
   getEstudiantes(): Observable<EstudianteResumenResponse[]> {
-    return this.http.get<EstudianteResumenResponse[]>(API_ROUTES.estudiantes.getAll);
+    return this.http.get<EstudianteResumenResponse[]>(API_ROUTES.estudiantes.obtenerTodos);
   }
 
   // Consulta el perfil del estudiante autenticado.
   getMiPerfil(): Observable<MiPerfilResponse> {
-    return this.http.get<MiPerfilResponse>(API_ROUTES.estudiantes.me);
+    return this.http.get<MiPerfilResponse>(API_ROUTES.estudiantes.miPerfil);
   }
 
   // Actualiza el perfil del estudiante autenticado.
   actualizarMiPerfil(request: ActualizarMiPerfilRequest): Observable<MiPerfilResponse> {
-    return this.http.put<MiPerfilResponse>(API_ROUTES.estudiantes.updateMe, request);
+    return this.http.put<MiPerfilResponse>(API_ROUTES.estudiantes.actualizarMiPerfil, request);
   }
 
   // Inhabilita el perfil académico del estudiante autenticado.
   inhabilitarMiPerfil(): Observable<void> {
-    return this.http.patch<void>(API_ROUTES.estudiantes.inhabilitarMe, {});
+    return this.http.patch<void>(API_ROUTES.estudiantes.inhabilitarMiPerfil, {});
   }
 
   // Habilita el perfil académico del estudiante autenticado.
   habilitarMiPerfil(): Observable<void> {
-    return this.http.patch<void>(API_ROUTES.estudiantes.habilitarMe, {});
+    return this.http.patch<void>(API_ROUTES.estudiantes.habilitarMiPerfil, {});
   }
 }
