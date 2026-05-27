@@ -1,0 +1,110 @@
+<section class="enrollment-page">
+  <header class="page-header">
+    <div>
+      <h1>Mi Inscripción</h1>
+
+      @if (inscripcion; as inscripcionActiva) {
+      <p>Registrada el {{ formatearFecha(inscripcionActiva.fechaInscripcion) }}</p>
+      }
+    </div>
+
+    @if (inscripcion; as inscripcionActiva) {
+      <div class="credits-badge">
+        <strong>{{ inscripcionActiva.totalCreditos }}</strong>
+        <span>créditos</span>
+      </div>
+    }
+  </header>
+
+  @if (!isLoading && !inscripcion) {
+    <section class="empty-enrollment-card">
+      <div class="empty-icon">
+        <fa-icon [icon]="faBookOpen"></fa-icon>
+      </div>
+
+      <h2 class="empty-title">Sin inscripción activa</h2>
+      <p class="empty-text">Aún no te has inscrito al programa de créditos académicos.</p>
+      <button class="primary-button" type="button" (click)="goToMaterias()">Inscribirme ahora</button>
+    </section>
+  }
+
+  @if (isLoading) {
+    <section class="empty-enrollment-card">
+      <div class="empty-icon">
+        <fa-icon [icon]="faGraduationCap"></fa-icon>
+      </div>
+
+      <h2 class="empty-title">Cargando inscripción</h2>
+      <p class="empty-text">Estamos preparando el detalle de tus materias.</p>
+    </section>
+  }
+
+  @if (!isLoading) {
+    @if (inscripcion; as inscripcionActiva) {
+      <section class="subjects-list">
+        @for (materia of inscripcionActiva.materias; track materia.materiaId) {
+          <article class="enrollment-subject-card">
+            <div class="subject-main">
+              <div class="subject-icon">
+                <fa-icon [icon]="faBookBookmark"></fa-icon>
+              </div>
+
+              <div class="subject-info">
+                <div class="subject-name">{{ materia.nombre }}</div>
+                <div class="subject-teacher">{{ materia.profesorNombre }}</div>
+
+                <div class="subject-meta">
+                  <span class="subject-credits">{{ materia.creditos }} créditos</span>
+                <span class="subject-classmates-count">{{ obtenerTextoCompaneros(materia.materiaId) }}</span>
+                </div>
+              </div>
+
+            <button class="classmates-toggle" type="button" (click)="alternarCompaneros(materia.materiaId)">
+                <span>Compañeros</span>
+              <fa-icon [icon]="estaExpandida(materia.materiaId) ? faChevronUp : faChevronDown"></fa-icon>
+              </button>
+            </div>
+
+          @if (estaExpandida(materia.materiaId)) {
+              <div class="classmates-panel">
+                <h3 class="classmates-title">COMPAÑEROS EN ESTA MATERIA</h3>
+
+              @if (obtenerCompaneros(materia.materiaId).length > 0) {
+                  <div class="classmates-list">
+                  @for (companero of obtenerCompaneros(materia.materiaId); track companero.nombreCompleto) {
+                      <span class="classmate-chip">
+                      <span class="classmate-avatar">{{ obtenerIniciales(companero.nombreCompleto) }}</span>
+                        <span class="classmate-name">{{ companero.nombreCompleto }}</span>
+                      </span>
+                    }
+                  </div>
+                } @else {
+                  <p class="empty-classmates">Aún no hay otros estudiantes inscritos en esta materia.</p>
+                }
+              </div>
+            }
+          </article>
+        }
+      </section>
+
+      <section class="teachers-card">
+        <h2>Mis profesores este periodo</h2>
+
+        <div class="teachers-grid">
+          @for (materia of inscripcionActiva.materias; track materia.materiaId) {
+            <article class="teacher-card">
+              <div class="teacher-icon">
+                <fa-icon [icon]="faUser"></fa-icon>
+              </div>
+
+              <div class="teacher-info">
+                <div class="teacher-name">{{ materia.profesorNombre }}</div>
+                <div class="teacher-subject">{{ materia.nombre }}</div>
+              </div>
+            </article>
+          }
+        </div>
+      </section>
+    }
+  }
+</section>

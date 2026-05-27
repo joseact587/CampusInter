@@ -12,5 +12,7 @@ public interface IEstudianteRepository
 
     Task<bool> ExistePorDocumentoAsync(string documento);
 
+    Task<bool> ExistePorDocumentoEnOtroEstudianteAsync(string documento, int estudianteId);
+
     Task AgregarAsync(Estudiante estudiante);
 }

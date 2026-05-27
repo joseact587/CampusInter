@@ -1,0 +1,100 @@
+<section class="profile-page">
+  <header class="page-header">
+    <h1>Mi Perfil</h1>
+  </header>
+
+  <section class="profile-grid">
+    <article class="profile-card">
+      <div class="profile-avatar">{{ obtenerIniciales() }}</div>
+
+      <h2 class="profile-name">{{ obtenerNombreCompleto() }}</h2>
+      <p class="profile-email">
+        <fa-icon [icon]="faEnvelope"></fa-icon>
+        {{ perfil?.correo || 'Correo no disponible' }}
+      </p>
+
+      <span class="profile-status">
+        <span class="status-dot"></span>
+        {{ estaActivo() ? 'Cuenta activa' : perfil?.estado || 'Estado no disponible' }}
+      </span>
+    </article>
+
+    <article class="profile-form-card">
+      <h2 class="form-title">Datos personales</h2>
+
+      <form class="profile-form" [formGroup]="form" (ngSubmit)="guardarCambios()">
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label" for="primerNombre">Primer nombre</label>
+            <input id="primerNombre" class="form-input" type="text" formControlName="primerNombre" />
+
+            @if (mostrarError('primerNombre', 'required')) {
+              <small class="form-error">El primer nombre es obligatorio.</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="segundoNombre">Segundo nombre</label>
+            <input id="segundoNombre" class="form-input" type="text" formControlName="segundoNombre" />
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="primerApellido">Primer apellido</label>
+            <input id="primerApellido" class="form-input" type="text" formControlName="primerApellido" />
+
+            @if (mostrarError('primerApellido', 'required')) {
+              <small class="form-error">El primer apellido es obligatorio.</small>
+            }
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="segundoApellido">Segundo apellido</label>
+            <input id="segundoApellido" class="form-input" type="text" formControlName="segundoApellido" />
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="correo">Correo electrónico</label>
+          <input id="correo" class="form-input" type="email" formControlName="correo" />
+
+          @if (mostrarError('correo', 'required')) {
+            <small class="form-error">El correo es obligatorio.</small>
+          }
+
+          @if (mostrarError('correo', 'email')) {
+            <small class="form-error">El correo no tiene un formato válido.</small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="documento">Documento</label>
+          <input id="documento" class="form-input" type="text" formControlName="documento" />
+
+          @if (mostrarError('documento', 'required')) {
+            <small class="form-error">El documento es obligatorio.</small>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button class="save-button" type="submit" [disabled]="isLoading">
+            <fa-icon [icon]="faSave"></fa-icon>
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+    </article>
+  </section>
+
+  <section class="danger-zone">
+    <h2 class="danger-title">Zona de peligro</h2>
+    <p class="danger-text">
+      Esta acción inhabilitará tu perfil académico y no podrás iniciar sesión nuevamente.
+      La información se conserva para mantener trazabilidad.
+    </p>
+
+    <button type="button" class="danger-button" (click)="inhabilitarCuenta()" [disabled]="isLoading">
+      <fa-icon [icon]="faTrash"></fa-icon>
+      Inhabilitar mi cuenta
+    </button>
+  </section>
+</section>

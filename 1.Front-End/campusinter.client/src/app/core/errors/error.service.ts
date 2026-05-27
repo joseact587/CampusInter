@@ -4,16 +4,17 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class ErrorService {
-  // Mensaje global activo
+  //--Variables
   private readonly message = signal<string | null>(null);
-
-  // Estado de solo lectura para la vista
   readonly currentMessage = this.message.asReadonly();
 
+  //--Métodos
+  // Muestra un mensaje global de error.
   show(message: string): void {
     this.message.set(message);
   }
 
+  // Limpia el mensaje global de error.
   clear(): void {
     this.message.set(null);
   }

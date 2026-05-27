@@ -22,6 +22,7 @@ public sealed class EstudianteRepository : IEstudianteRepository
     {
         return await _context.Estudiantes
             .AsNoTracking()
+            .Include(estudiante => estudiante.Usuario)
             .Where(estudiante => estudiante.Estado == EstadoEstudiante.Activo)
             .OrderBy(estudiante => estudiante.PrimerApellido)
             .ThenBy(estudiante => estudiante.PrimerNombre)
@@ -49,6 +50,16 @@ public sealed class EstudianteRepository : IEstudianteRepository
 
         return _context.Estudiantes
             .AnyAsync(estudiante => estudiante.Documento == documentoNormalizado);
+    }
+
+    public Task<bool> ExistePorDocumentoEnOtroEstudianteAsync(string documento, int estudianteId)
+    {
+        var documentoNormalizado = documento.Trim();
+
+        return _context.Estudiantes
+            .AnyAsync(estudiante =>
+                estudiante.Documento == documentoNormalizado &&
+                estudiante.EstudianteId != estudianteId);
     }
 
     // Comandos

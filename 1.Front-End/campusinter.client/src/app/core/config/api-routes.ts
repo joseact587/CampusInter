@@ -25,6 +25,8 @@ export const API_ROUTES = {
   // Estudiantes
   estudiantes: {
     getAll: `${API_BASE_URL}/api/estudiantes`,
-    me: `${API_BASE_URL}/api/estudiantes/me`
+    me: `${API_BASE_URL}/api/estudiantes/me`,
+    updateMe: `${API_BASE_URL}/api/estudiantes/me`,
+    inhabilitarMe: `${API_BASE_URL}/api/estudiantes/me/inhabilitar`
   }
 } as const;

@@ -36,4 +36,21 @@ public sealed class EstudiantesController : ControllerBase
 
         return Ok(response);
     }
+
+    [HttpPut("me")]
+    public async Task<ActionResult<MiPerfilResponse>> ActualizarMiPerfil(
+        [FromBody] ActualizarMiPerfilRequest request)
+    {
+        var response = await _estudianteService.ActualizarMiPerfilAsync(request);
+
+        return Ok(response);
+    }
+
+    [HttpPatch("me/inhabilitar")]
+    public async Task<IActionResult> InhabilitarMiPerfil()
+    {
+        await _estudianteService.InhabilitarMiPerfilAsync();
+
+        return NoContent();
+    }
 }

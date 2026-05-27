@@ -1,4 +1,137 @@
-<section>
-  <h1>Registro</h1>
-  <p>Formulario de registro pendiente.</p>
-</section>
+<div class="auth-page">
+  <aside class="auth-side">
+    <div class="auth-side-pattern"></div>
+
+    <div class="auth-side-content">
+      <div class="auth-brand">
+        <div class="auth-brand-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"></path>
+            <path d="M22 10v6"></path>
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+          </svg>
+        </div>
+
+        <div class="auth-brand-text">
+          <p class="auth-brand-title">Campus Inter</p>
+          <p class="auth-brand-subtitle">Programa de Créditos Académicos</p>
+        </div>
+      </div>
+
+      <h2 class="auth-side-title">Tu camino académico comienza aquí</h2>
+      <p class="auth-side-description">
+        Regístrate, selecciona tus materias y conecta con tus compañeros de clase en una sola plataforma.
+      </p>
+
+    </div>
+  </aside>
+
+  <main class="auth-content">
+    <section class="auth-card auth-card--register">
+      <div class="auth-mobile-brand">
+        <div class="auth-brand-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"></path>
+            <path d="M22 10v6"></path>
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+          </svg>
+        </div>
+        <span>Campus Inter</span>
+      </div>
+
+      <header class="auth-header">
+        <h1>Crear cuenta</h1>
+        <p>Únete al programa de créditos académicos</p>
+      </header>
+
+      <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
+        <div class="auth-grid">
+          <div class="auth-field">
+            <label class="auth-label" for="primerNombre">Primer nombre</label>
+            <input id="primerNombre" class="auth-input" type="text" formControlName="primerNombre" placeholder="Carlos" />
+
+            @if (hasError('primerNombre', 'required')) {
+              <small class="auth-error">El primer nombre es obligatorio.</small>
+            }
+          </div>
+
+          <div class="auth-field">
+            <label class="auth-label" for="segundoNombre">Segundo nombre</label>
+            <input id="segundoNombre" class="auth-input" type="text" formControlName="segundoNombre" placeholder="Andrés" />
+          </div>
+        </div>
+
+        <div class="auth-grid">
+          <div class="auth-field">
+            <label class="auth-label" for="primerApellido">Primer apellido</label>
+            <input id="primerApellido" class="auth-input" type="text" formControlName="primerApellido" placeholder="López" />
+
+            @if (hasError('primerApellido', 'required')) {
+              <small class="auth-error">El primer apellido es obligatorio.</small>
+            }
+          </div>
+
+          <div class="auth-field">
+            <label class="auth-label" for="segundoApellido">Segundo apellido</label>
+            <input id="segundoApellido" class="auth-input" type="text" formControlName="segundoApellido" placeholder="Gómez" />
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="correo">Correo electrónico</label>
+          <input id="correo" class="auth-input" type="email" formControlName="correo" placeholder="tu@correo.com" />
+
+          @if (hasError('correo', 'required')) {
+            <small class="auth-error">El correo es obligatorio.</small>
+          }
+
+          @if (hasError('correo', 'email')) {
+            <small class="auth-error">El correo no tiene un formato válido.</small>
+          }
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="password">Contraseña</label>
+          <div class="auth-input-wrapper">
+            <input
+              id="password"
+              class="auth-input auth-input--password"
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="new-password"
+              placeholder="Mínimo 6 caracteres"
+            />
+
+            <button class="auth-password-button" type="button" (click)="togglePasswordVisibility()">
+              {{ showPassword ? 'Ocultar' : 'Ver' }}
+            </button>
+          </div>
+
+          @if (hasError('password', 'required')) {
+            <small class="auth-error">La contraseña es obligatoria.</small>
+          }
+
+          @if (hasError('password', 'minlength')) {
+            <small class="auth-error">La contraseña debe tener mínimo 6 caracteres.</small>
+          }
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="documento">Documento</label>
+          <input id="documento" class="auth-input" type="text" formControlName="documento" placeholder="1001001001" />
+
+          @if (hasError('documento', 'required')) {
+            <small class="auth-error">El documento es obligatorio.</small>
+          }
+        </div>
+
+        <button class="auth-button" type="submit">Crear cuenta</button>
+      </form>
+
+      <p class="auth-switch">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login">Inicia sesión</a>
+      </p>
+    </section>
+  </main>
+</div>

@@ -7,20 +7,20 @@ import { AuthService } from '../../auth/services/auth.service';
 import { ErrorService } from '../../errors/error.service';
 import { SKIP_ERROR_HANDLER } from '../tokens/http-context.tokens';
 
+//--Métodos
+// Interpreta errores HTTP y los muestra en el error global.
 export const errorInterceptor: HttpInterceptorFn = (request, next) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const errorService = inject(ErrorService);
   const shouldSkipErrorHandler = request.context.get(SKIP_ERROR_HANDLER);
 
-  // Llamadas que manejan sus propios errores
   if (shouldSkipErrorHandler) {
     return next(request);
   }
 
   return next(request).pipe(
     catchError((error: unknown) => {
-      // Errores HTTP controlados
       if (error instanceof HttpErrorResponse) {
         handleHttpError(error, router, authService, errorService);
       }
@@ -30,6 +30,7 @@ export const errorInterceptor: HttpInterceptorFn = (request, next) => {
   );
 };
 
+// Maneja cada código HTTP con un mensaje claro para el usuario.
 function handleHttpError(
   error: HttpErrorResponse,
   router: Router,
@@ -42,17 +43,17 @@ function handleHttpError(
       return;
 
     case 400:
-      errorService.show(getErrorMessage(error, 'La solicitud no es valida.'));
+      errorService.show(getErrorMessage(error, 'La solicitud no es válida.'));
       return;
 
     case 401:
-      errorService.show('Tu sesion ha expirado. Inicia sesion nuevamente.');
-      authService.logout();
+      errorService.show('Tu sesión ha expirado. Inicia sesión nuevamente.');
+      authService.cerrarSesion();
       void router.navigate(['/login']);
       return;
 
     case 403:
-      errorService.show('No tienes permisos para realizar esta accion.');
+      errorService.show('No tienes permisos para realizar esta acción.');
       void router.navigate(['/home']);
       return;
 
@@ -61,19 +62,20 @@ function handleHttpError(
       return;
 
     case 409:
-      errorService.show(getErrorMessage(error, 'Existe un conflicto con la informacion enviada.'));
+      errorService.show(getErrorMessage(error, 'Existe un conflicto con la información enviada.'));
       return;
 
     case 500:
-      errorService.show(getErrorMessage(error, 'Ocurrio un error interno. Intenta nuevamente mas tarde.'));
+      errorService.show(getErrorMessage(error, 'Ocurrió un error interno. Intenta nuevamente más tarde.'));
       return;
 
     default:
-      errorService.show(getErrorMessage(error, 'Ocurrio un error inesperado.'));
+      errorService.show(getErrorMessage(error, 'Ocurrió un error inesperado.'));
       return;
   }
 }
 
+// Extrae mensajes desde ProblemDetails o ValidationProblemDetails.
 function getErrorMessage(error: HttpErrorResponse, fallback: string): string {
   const detail = error.error?.detail;
   const message = error.error?.message;

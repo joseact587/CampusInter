@@ -1,0 +1,133 @@
+<section class="subjects-page">
+@if (tieneInscripcionActiva) {
+    <header class="page-header">
+      <h1>Materias</h1>
+    </header>
+
+    <section class="active-enrollment-alert">
+      <div class="alert-icon">
+        <fa-icon [icon]="faCircleCheck"></fa-icon>
+      </div>
+
+      <div class="alert-content">
+        <h2 class="alert-title">Ya tienes una inscripción activa</h2>
+        <p class="alert-text">No puedes crear una nueva inscripción mientras tengas una activa.</p>
+      </div>
+
+      <button class="alert-button" type="button" (click)="goToMiInscripcion()">
+        Ver mi inscripción
+      </button>
+    </section>
+
+    <h2 class="section-title">Catálogo completo de materias</h2>
+
+    <section class="subjects-grid catalog-mode">
+      @for (materia of materias; track materia.materiaId) {
+        <article class="subject-card" [class.subject-card-registered]="materiaEstaInscrita(materia)">
+          <div class="subject-header">
+            <div>
+              <div class="subject-title">{{ materia.nombre }}</div>
+              <div class="subject-teacher">{{ materia.profesorNombre }}</div>
+              <div class="subject-credits">{{ materia.creditos }} créditos</div>
+            </div>
+
+            @if (materiaEstaInscrita(materia)) {
+              <span class="subject-badge">Inscrita</span>
+            }
+          </div>
+        </article>
+      }
+    </section>
+  } @else {
+    <header class="page-header">
+      <h1>Inscripción de materias</h1>
+      <p>Selecciona exactamente 3 materias de profesores diferentes</p>
+    </header>
+
+    <section class="enrollment-layout">
+      <div class="subjects-grid selection-mode">
+        @for (materia of materias; track materia.materiaId) {
+          <button
+            class="subject-card"
+            type="button"
+            [class.subject-card-selected]="materiaEstaSeleccionada(materia)"
+            [class.subject-card-disabled]="!puedeSeleccionarMateria(materia)"
+            [disabled]="!puedeSeleccionarMateria(materia)"
+            (click)="alternarMateria(materia)"
+          >
+            <div class="subject-header">
+              <div>
+                <div class="subject-title">{{ materia.nombre }}</div>
+                <div class="subject-teacher">{{ materia.profesorNombre }}</div>
+                <div class="subject-credits">{{ materia.creditos }} créditos</div>
+              </div>
+
+              @if (materiaEstaSeleccionada(materia)) {
+                <span class="subject-check">
+                  <fa-icon [icon]="faCircleCheck"></fa-icon>
+                </span>
+              } @else if (profesorYaSeleccionado(materia)) {
+                <span class="subject-badge subject-badge-warning">Profesor ya elegido</span>
+              } @else {
+                <span class="subject-check"></span>
+              }
+            </div>
+          </button>
+        }
+      </div>
+
+      <aside class="selection-summary">
+        <h2 class="summary-title">Resumen de selección</h2>
+
+        <div class="summary-row">
+          <span>Materias seleccionadas</span>
+          <strong>{{ cantidadSeleccionada }} / 3</strong>
+        </div>
+
+        <div class="summary-progress" aria-hidden="true">
+          <div
+            class="summary-progress-bar"
+            [class.summary-progress-complete]="cantidadSeleccionada === 3"
+            [style.width.%]="porcentajeProgreso"
+          ></div>
+        </div>
+
+        <div class="summary-row">
+          <span>Créditos</span>
+          <strong>{{ creditosSeleccionados }} / 9</strong>
+        </div>
+
+        <div class="summary-selected-list">
+        @for (materia of materiasSeleccionadas; track materia.materiaId) {
+            <article class="summary-selected-item">
+              <div class="summary-selected-info">
+                <strong>{{ materia.nombre }}</strong>
+                <span>{{ materia.profesorNombre }}</span>
+              </div>
+
+              <button class="summary-remove-button" type="button" (click)="quitarMateria(materia)">
+                <fa-icon [icon]="faXmark"></fa-icon>
+              </button>
+            </article>
+          }
+        </div>
+
+        @if (cantidadSeleccionada < 3) {
+          <div class="summary-warning">
+            <fa-icon [icon]="faCircleExclamation"></fa-icon>
+            <span>{{ mensajeMateriasFaltantes }}</span>
+          </div>
+        }
+
+        <button
+          class="confirm-button"
+          type="button"
+          [disabled]="cantidadSeleccionada !== 3 || isLoading"
+          (click)="confirmarInscripcion()"
+        >
+          Confirmar inscripción
+        </button>
+      </aside>
+    </section>
+  }
+</section>

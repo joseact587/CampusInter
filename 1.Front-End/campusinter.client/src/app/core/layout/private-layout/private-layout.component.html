@@ -1,0 +1,62 @@
+<div class="private-layout">
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <div class="brand-icon">
+        <fa-icon [icon]="faGraduationCap"></fa-icon>
+      </div>
+
+      <div class="brand-text">
+        <strong>Campus Inter</strong>
+        <span>Programa de Créditos</span>
+      </div>
+    </header>
+
+    <nav class="sidebar-menu" aria-label="Menú principal">
+      <a class="menu-item" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <fa-icon class="menu-icon" [icon]="faHouse"></fa-icon>
+        <span>Panel principal</span>
+      </a>
+
+      <a class="menu-item" routerLink="/materias" routerLinkActive="active">
+        <fa-icon class="menu-icon" [icon]="faBookOpen"></fa-icon>
+        <span>Inscribir materias</span>
+      </a>
+
+      <a class="menu-item" routerLink="/mi-inscripcion" routerLinkActive="active">
+        <fa-icon class="menu-icon" [icon]="faBookBookmark"></fa-icon>
+        <span>Mi Inscripción</span>
+        <span class="menu-badge">Activa</span>
+      </a>
+
+      <a class="menu-item" routerLink="/estudiantes" routerLinkActive="active">
+        <fa-icon class="menu-icon" [icon]="faUsers"></fa-icon>
+        <span>Estudiantes</span>
+      </a>
+
+      <a class="menu-item" routerLink="/mi-perfil" routerLinkActive="active">
+        <fa-icon class="menu-icon" [icon]="faUser"></fa-icon>
+        <span>Mi Perfil</span>
+      </a>
+    </nav>
+
+    <footer class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">{{ initials() }}</div>
+
+        <div class="user-text">
+          <strong>{{ currentUser()?.displayName || 'Usuario' }}</strong>
+          <span>{{ currentUser()?.correo || 'Sin correo' }}</span>
+        </div>
+      </div>
+
+      <button class="logout-button" type="button" (click)="logout()">
+        <fa-icon [icon]="faRightFromBracket"></fa-icon>
+        <span>Cerrar sesión</span>
+      </button>
+    </footer>
+  </aside>
+
+  <main class="layout-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

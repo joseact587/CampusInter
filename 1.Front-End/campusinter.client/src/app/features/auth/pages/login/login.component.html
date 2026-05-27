@@ -1,4 +1,105 @@
-<section>
-  <h1>Iniciar sesion</h1>
-  <p>Formulario de inicio de sesion pendiente.</p>
-</section>
+<div class="auth-page">
+  <aside class="auth-side">
+    <div class="auth-side-pattern"></div>
+
+    <div class="auth-side-content">
+      <div class="auth-brand">
+        <div class="auth-brand-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"></path>
+            <path d="M22 10v6"></path>
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+          </svg>
+        </div>
+
+        <div class="auth-brand-text">
+          <p class="auth-brand-title">Campus Inter</p>
+          <p class="auth-brand-subtitle">Programa de Créditos Académicos</p>
+        </div>
+      </div>
+
+      <h2 class="auth-side-title">Tu camino académico comienza aquí</h2>
+      <p class="auth-side-description">
+        Regístrate, selecciona tus materias y conecta con tus compañeros de clase en una sola plataforma.
+      </p>
+
+    </div>
+  </aside>
+
+  <main class="auth-content">
+    <section class="auth-card">
+      <div class="auth-mobile-brand">
+        <div class="auth-brand-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"></path>
+            <path d="M22 10v6"></path>
+            <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+          </svg>
+        </div>
+        <span>Campus Inter</span>
+      </div>
+
+      <header class="auth-header">
+        <h1>Bienvenido</h1>
+        <p>Inicia sesión para acceder a tu portal académico</p>
+      </header>
+
+      <form class="auth-form" [formGroup]="form" (ngSubmit)="iniciarSesion()">
+        <div class="auth-field">
+          <label class="auth-label" for="correo">Correo electrónico</label>
+          <input
+            id="correo"
+            class="auth-input"
+            type="email"
+            formControlName="correo"
+            autocomplete="email"
+            placeholder="tu@correo.com"
+          />
+
+          @if (mostrarError('correo', 'required')) {
+            <small class="auth-error">El correo es obligatorio.</small>
+          }
+
+          @if (mostrarError('correo', 'email')) {
+            <small class="auth-error">El correo no tiene un formato válido.</small>
+          }
+        </div>
+
+        <div class="auth-field">
+          <label class="auth-label" for="password">Contraseña</label>
+          <div class="auth-input-wrapper">
+            <input
+              id="password"
+              class="auth-input auth-input--password"
+              [type]="mostrarPassword ? 'text' : 'password'"
+              formControlName="password"
+              autocomplete="current-password"
+              placeholder="Tu contraseña"
+            />
+
+            <button class="auth-password-button" type="button" (click)="alternarVisibilidadPassword()">
+              {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+            </button>
+          </div>
+
+          @if (mostrarError('password', 'required')) {
+            <small class="auth-error">La contraseña es obligatoria.</small>
+          }
+        </div>
+
+        <button class="auth-button" type="submit">Iniciar sesión</button>
+      </form>
+
+      <p class="auth-switch">
+        ¿No tienes cuenta?
+        <a routerLink="/register">Crear cuenta</a>
+      </p>
+
+      <div class="auth-test-accounts">
+        <strong>Cuentas de prueba</strong>
+        <p>juan.perez&#64;test.com - contraseña: Prueba123</p>
+        <p>ana.rodriguez&#64;test.com - contraseña: Prueba123</p>
+      </div>
+    </section>
+  </main>
+</div>

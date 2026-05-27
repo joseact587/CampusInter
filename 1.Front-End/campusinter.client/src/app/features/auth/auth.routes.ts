@@ -8,7 +8,7 @@ export const AUTH_ROUTES: Routes = [
     component: LoginComponent
   },
   {
-    path: 'registro',
+    path: 'register',
     component: RegistroComponent
   }
 ];

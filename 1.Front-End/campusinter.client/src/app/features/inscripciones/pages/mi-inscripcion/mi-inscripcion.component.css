@@ -1,0 +1,297 @@
+:host {
+  display: block;
+}
+
+.enrollment-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.credits-badge {
+  min-width: 70px;
+  padding: 0.8rem 1rem;
+  border-radius: 16px;
+  border: 1px solid #a7f3d0;
+  background: #ecfdf3;
+  text-align: center;
+  color: #039855;
+}
+
+.credits-badge strong {
+  display: block;
+  font-size: 1.3rem;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.credits-badge span {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.empty-enrollment-card {
+  min-height: 260px;
+  padding: 3rem 1.5rem;
+  border-radius: 18px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  color: #767676;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.empty-title {
+  margin: 0;
+  color: #181818;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.empty-text {
+  margin: 0.75rem 0 1.5rem;
+  color: #696969;
+  font-size: 0.95rem;
+}
+
+.subjects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.enrollment-subject-card {
+  border-radius: 18px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.subject-main {
+  padding: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.subject-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #fff0e8;
+  color: #f4510b;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.subject-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.subject-name {
+  color: #181818;
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+.subject-teacher {
+  margin-top: 0.35rem;
+  color: #696969;
+  font-size: 0.9rem;
+}
+
+.subject-meta {
+  margin-top: 0.55rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.subject-credits {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #fff0e8;
+  color: #f4510b;
+  font-size: 0.8rem;
+  font-weight: 550;
+}
+
+.subject-classmates-count {
+  color: #696969;
+  font-size: 0.85rem;
+}
+
+.classmates-toggle {
+  border: 0;
+  background: transparent;
+  color: #f4510b;
+  font-size: 0.85rem;
+  font-weight: 550;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.classmates-toggle:hover {
+  text-decoration: underline;
+}
+
+.classmates-panel {
+  padding: 1.2rem 1.4rem 1.4rem;
+  border-top: 1px solid #e7e5df;
+  background: #fbfbf8;
+}
+
+.classmates-title {
+  margin: 0 0 0.9rem;
+  color: #696969;
+  font-size: 0.72rem;
+  font-weight: 550;
+  letter-spacing: 0.12em;
+}
+
+.classmates-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.classmate-chip {
+  min-height: 38px;
+  padding: 0.35rem 0.75rem 0.35rem 0.4rem;
+  border-radius: 12px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.classmate-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff0e8;
+  color: #f4510b;
+  display: grid;
+  place-items: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.classmate-name {
+  color: #181818;
+  font-size: 0.88rem;
+}
+
+.empty-classmates {
+  margin: 0;
+  color: #696969;
+  font-size: 0.9rem;
+}
+
+.teachers-card {
+  padding: 1.4rem;
+  border-radius: 18px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+}
+
+.teachers-card h2 {
+  margin: 0 0 1rem;
+  color: #181818;
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+.teachers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.teacher-card {
+  padding: 1rem;
+  border-radius: 13px;
+  border: 1px solid #e7e5df;
+  background: #fbfbf8;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.teacher-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #fff0e8;
+  color: #f4510b;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.teacher-info {
+  min-width: 0;
+}
+
+.teacher-name {
+  color: #181818;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teacher-subject {
+  margin-top: 0.2rem;
+  color: #696969;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 760px) {
+  .page-header {
+    flex-direction: column;
+  }
+
+  .subject-main {
+    align-items: flex-start;
+  }
+
+  .classmates-toggle {
+    align-self: flex-start;
+  }
+
+  .teachers-grid {
+    grid-template-columns: 1fr;
+  }
+}

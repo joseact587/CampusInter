@@ -1,0 +1,73 @@
+<section class="students-page">
+  <header class="page-header">
+    <h1>Estudiantes</h1>
+    <p>{{ estudiantes.length }} alumnos registrados en el programa</p>
+  </header>
+
+  <div class="search-box">
+    <fa-icon class="search-icon" [icon]="faSearch"></fa-icon>
+    <input
+      class="search-input"
+      type="search"
+      [formControl]="searchControl"
+      placeholder="Buscar por nombre, correo o documento..."
+    />
+  </div>
+
+  @if (!isLoading && estudiantes.length === 0) {
+    <section class="empty-card">
+      <div class="empty-icon">
+        <fa-icon [icon]="faUsers"></fa-icon>
+      </div>
+
+      <h2 class="empty-title">No hay estudiantes registrados</h2>
+      <p class="empty-text">Cuando existan estudiantes inscritos, aparecerán en esta sección.</p>
+    </section>
+  }
+
+  @if (!isLoading && estudiantes.length > 0 && filteredEstudiantes.length === 0) {
+    <section class="empty-card">
+      <div class="empty-icon">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </div>
+
+      <h2 class="empty-title">Sin resultados</h2>
+      <p class="empty-text">No encontramos estudiantes con ese criterio de búsqueda.</p>
+    </section>
+  }
+
+  @if (!isLoading && filteredEstudiantes.length > 0) {
+    <section class="students-card">
+      @for (estudiante of filteredEstudiantes; track estudiante.estudianteId) {
+        <article class="student-row">
+          <div class="student-avatar">{{ getInitials(estudiante) }}</div>
+
+          <div class="student-info">
+            <div class="student-name">{{ getNombreCompleto(estudiante) }}</div>
+
+            <div class="student-meta">
+              <span class="student-meta-item">
+                <fa-icon [icon]="faEnvelope"></fa-icon>
+                {{ estudiante.correo }}
+              </span>
+
+              <span class="student-meta-item">
+                <fa-icon [icon]="faIdCard"></fa-icon>
+                {{ estudiante.documento }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="student-status"
+            [class.status-active]="isActive(estudiante)"
+            [class.status-inactive]="!isActive(estudiante)"
+          >
+            <span class="status-dot"></span>
+            <span>{{ isActive(estudiante) ? 'Activo' : estudiante.estado }}</span>
+          </div>
+        </article>
+      }
+    </section>
+  }
+</section>

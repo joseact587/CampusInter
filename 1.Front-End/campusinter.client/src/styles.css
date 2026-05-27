@@ -1,1 +1,145 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+/* Variables visuales base de CampusInter */
+:root {
+  --color-primary: #f4510b;
+  --color-primary-soft: #fff0e8;
+  --color-background: #f7f7f3;
+  --color-surface: #ffffff;
+  --color-surface-soft: #fbfbf8;
+  --color-input: #f3f3ef;
+  --color-border: #e7e5df;
+  --color-border-input: #deded8;
+  --color-text: #181818;
+  --color-muted: #696969;
+  --color-danger: #b42318;
+  --color-success: #039855;
+
+  --radius-card: 18px;
+  --radius-control: 13px;
+  --shadow-soft: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Encabezado estándar de páginas privadas */
+.page-header {
+  margin-bottom: 1.8rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1.1;
+  color: var(--color-text);
+  font-weight: 800;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.page-header p {
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+/* Card base reutilizable para paneles y secciones */
+.app-card {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.app-card-padding {
+  padding: 1.5rem;
+}
+
+/* Campos de formulario reutilizables */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.form-label {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 1rem;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border-input);
+  background: var(--color-input);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.form-input::placeholder,
+.form-select::placeholder {
+  color: #8a8a84;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 4px rgba(244, 81, 11, 0.12);
+}
+
+.form-error {
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
+/* Botón principal de acciones positivas */
+.primary-button {
+  min-height: 44px;
+  padding: 0 1.4rem;
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  filter: brightness(0.95);
+}
+
+.primary-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

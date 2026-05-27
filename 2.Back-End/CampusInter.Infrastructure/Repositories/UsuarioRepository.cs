@@ -41,6 +41,16 @@ public sealed class UsuarioRepository : IUsuarioRepository
             .AnyAsync(usuario => usuario.Correo == correoNormalizado);
     }
 
+    public Task<bool> ExistePorCorreoEnOtroUsuarioAsync(string correo, int usuarioId)
+    {
+        var correoNormalizado = correo.Trim().ToLowerInvariant();
+
+        return _context.Usuarios
+            .AnyAsync(usuario =>
+                usuario.Correo == correoNormalizado &&
+                usuario.UsuarioId != usuarioId);
+    }
+
     // Comandos
     public async Task AgregarAsync(Usuario usuario)
     {

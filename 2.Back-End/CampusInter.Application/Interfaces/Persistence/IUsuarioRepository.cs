@@ -10,5 +10,7 @@ public interface IUsuarioRepository
 
     Task<bool> ExistePorCorreoAsync(string correo);
 
+    Task<bool> ExistePorCorreoEnOtroUsuarioAsync(string correo, int usuarioId);
+
     Task AgregarAsync(Usuario usuario);
 }

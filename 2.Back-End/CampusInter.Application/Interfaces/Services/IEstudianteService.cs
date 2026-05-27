@@ -7,4 +7,8 @@ public interface IEstudianteService
     Task<IReadOnlyList<EstudianteResumenResponse>> ObtenerEstudiantesAsync();
 
     Task<MiPerfilResponse> ObtenerMiPerfilAsync();
+
+    Task<MiPerfilResponse> ActualizarMiPerfilAsync(ActualizarMiPerfilRequest request);
+
+    Task InhabilitarMiPerfilAsync();
 }

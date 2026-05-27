@@ -4,20 +4,22 @@ import { computed, Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class LoadingService {
-  // Cantidad de peticiones HTTP activas
+  //--Variables
   private readonly activeRequests = signal(0);
-
-  // Estado visible del loading global
   readonly isLoading = computed(() => this.activeRequests() > 0);
 
+  //--Métodos
+  // Aumenta el contador de peticiones activas.
   show(): void {
     this.activeRequests.update(current => current + 1);
   }
 
+  // Disminuye el contador de peticiones activas.
   hide(): void {
     this.activeRequests.update(current => Math.max(0, current - 1));
   }
 
+  // Reinicia el estado global de carga.
   reset(): void {
     this.activeRequests.set(0);
   }

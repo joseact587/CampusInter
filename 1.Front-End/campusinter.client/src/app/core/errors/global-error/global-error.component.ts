@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ErrorService } from '../error.service';
 
-// Toast global de errores
 @Component({
   selector: 'app-global-error',
   standalone: true,
@@ -9,5 +8,6 @@ import { ErrorService } from '../error.service';
   styleUrl: './global-error.component.css'
 })
 export class GlobalErrorComponent {
+  //--Inyecciones
   readonly errorService = inject(ErrorService);
 }

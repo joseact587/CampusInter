@@ -1,3 +1,282 @@
-section {
-  padding: 2rem;
+:host {
+  display: block;
+}
+
+.home-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.home-header {
+  margin-bottom: 2rem;
+}
+
+.home-header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  line-height: 1.1;
+  color: #181818;
+  font-weight: 800;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.home-header p {
+  margin: 0.5rem 0 0;
+  color: #696969;
+  font-size: 1rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.summary-card {
+  min-height: 132px;
+  padding: 1.4rem;
+  border-radius: 18px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+}
+
+.summary-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.summary-icon-primary {
+  background: #fff0e8;
+  color: #f4510b;
+}
+
+.summary-icon-green {
+  background: #ecfdf3;
+  color: #039855;
+}
+
+.summary-icon-blue {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.summary-icon-purple {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.summary-value {
+  font-size: 1.85rem;
+  line-height: 1;
+  color: #181818;
+}
+
+.summary-label {
+  margin-top: 0.55rem;
+  color: #696969;
+  font-size: 0.95rem;
+}
+
+.enrollment-card,
+.empty-enrollment-card {
+  margin-bottom: 1.6rem;
+  padding: 1.6rem;
+  border-radius: 18px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+}
+
+.enrollment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.3rem;
+}
+
+.enrollment-title-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.enrollment-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #ecfdf3;
+  color: #039855;
+  flex-shrink: 0;
+}
+
+.enrollment-title {
+  margin: 0;
+  color: #181818;
+  font-size: 1.05rem;
+  font-weight: 550;
+}
+
+.enrollment-date {
+  margin: 0.25rem 0 0;
+  color: #696969;
+  font-size: 0.9rem;
+}
+
+.enrollment-detail-button {
+  border: 0;
+  background: transparent;
+  color: #f4510b;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.subject-card {
+  padding: 1rem;
+  border-radius: 13px;
+  border: 1px solid #e7e5df;
+  background: #fbfbf8;
+}
+
+.subject-name {
+  color: #181818;
+  font-size: 0.98rem;
+  font-weight: 550;
+}
+
+.subject-teacher {
+  margin-top: 0.45rem;
+  color: #696969;
+  font-size: 0.9rem;
+}
+
+.subject-credits {
+  margin-top: 0.7rem;
+  color: #f4510b;
+  font-size: 0.9rem;
+  font-weight: 550;
+}
+
+.empty-enrollment-card {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  background: #fffbeb;
+  color: #f59e0b;
+  flex-shrink: 0;
+}
+
+.empty-title {
+  margin: 0;
+  color: #181818;
+  font-size: 1.25rem;
+}
+
+.empty-text {
+  margin: 0.6rem 0 1.3rem;
+  color: #696969;
+  line-height: 1.6;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.quick-action-card {
+  min-height: 76px;
+  padding: 1.15rem;
+  border-radius: 18px;
+  border: 1px solid #e7e5df;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quick-action-card:hover {
+  border-color: rgba(244, 81, 11, 0.35);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.quick-action-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.quick-action-title {
+  display: block;
+  color: #181818;
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+.quick-action-text {
+  display: block;
+  margin-top: 0.25rem;
+  color: #696969;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-header h1 {
+    font-size: 2rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .enrollment-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .empty-enrollment-card {
+    flex-direction: column;
+  }
 }

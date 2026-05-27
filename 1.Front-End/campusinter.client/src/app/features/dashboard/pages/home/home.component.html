@@ -1,5 +1,123 @@
-<section>
-  <h1>CampusInter</h1>
-  <p>Panel principal del estudiante.</p>
+<section class="home-page">
+  <header class="home-header">
+    <h1>Hola, {{ primerNombre() }}</h1>
+    <p>Bienvenido a tu panel académico</p>
+  </header>
+
+  <section class="summary-grid" aria-label="Resumen académico">
+    <article class="summary-card">
+      <div class="summary-icon summary-icon-primary">
+        <fa-icon [icon]="faBookOpen"></fa-icon>
+      </div>
+      <div class="summary-value">{{ materiasInscritas() }}</div>
+      <div class="summary-label">Materias inscritas</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-icon summary-icon-green">
+        <fa-icon [icon]="faAward"></fa-icon>
+      </div>
+      <div class="summary-value">{{ creditosTotales() }}</div>
+      <div class="summary-label">Créditos utilizados</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-icon summary-icon-blue">
+        <fa-icon [icon]="faUsers"></fa-icon>
+      </div>
+      <div class="summary-value">{{ companerosTotal() }}</div>
+      <div class="summary-label">Compañeros de clase</div>
+    </article>
+
+    <article class="summary-card">
+      <div class="summary-icon summary-icon-purple">
+        <fa-icon [icon]="faGraduationCap"></fa-icon>
+      </div>
+      <div class="summary-value">{{ estudiantesActivos() }}</div>
+      <div class="summary-label">Estudiantes activos</div>
+    </article>
+  </section>
+
+  @if (cargando()) {
+    <section class="empty-enrollment-card">
+      <div class="empty-icon">
+        <fa-icon [icon]="faGraduationCap"></fa-icon>
+      </div>
+
+      <div class="empty-content">
+        <h2 class="empty-title">Cargando información académica</h2>
+        <p class="empty-text">Estamos preparando el estado actual de tu inscripción.</p>
+      </div>
+    </section>
+  } @else {
+    @if (inscripcion(); as inscripcionActiva) {
+      <section class="enrollment-card">
+        <header class="enrollment-header">
+          <div class="enrollment-title-group">
+            <div class="enrollment-icon">
+              <fa-icon [icon]="faCircleCheck"></fa-icon>
+            </div>
+
+            <div>
+              <h2 class="enrollment-title">Inscripción activa - {{ inscripcionActiva.totalCreditos }} créditos</h2>
+              <p class="enrollment-date">Registrada el {{ formatFecha(inscripcionActiva.fechaInscripcion) }}</p>
+            </div>
+          </div>
+
+          <button class="enrollment-detail-button" type="button" (click)="goToMiInscripcion()">
+            Ver detalle
+          </button>
+        </header>
+
+        <div class="subject-grid">
+          @for (materia of inscripcionActiva.materias; track materia.materiaId) {
+            <article class="subject-card">
+              <div class="subject-name">{{ materia.nombre }}</div>
+              <div class="subject-teacher">{{ materia.profesorNombre }}</div>
+              <div class="subject-credits">{{ materia.creditos }} créditos</div>
+            </article>
+          }
+        </div>
+      </section>
+    } @else {
+      <section class="empty-enrollment-card">
+        <div class="empty-icon">
+          <fa-icon [icon]="faCircleExclamation"></fa-icon>
+        </div>
+
+        <div class="empty-content">
+          <h2 class="empty-title">Sin inscripción activa</h2>
+          <p class="empty-text">
+            Selecciona exactamente 3 materias de profesores diferentes para completar tu inscripción
+            (9 créditos en total).
+          </p>
+          <button class="primary-button" type="button" (click)="goToMaterias()">Inscribirme ahora</button>
+        </div>
+      </section>
+    }
+  }
+
+  <section class="quick-actions" aria-label="Acciones rápidas">
+    <button class="quick-action-card" type="button" (click)="goToEstudiantes()">
+      <span class="quick-action-icon summary-icon-blue">
+        <fa-icon [icon]="faUsers"></fa-icon>
+      </span>
+
+      <span>
+        <span class="quick-action-title">Ver estudiantes</span>
+        <span class="quick-action-text">Consulta quiénes hacen parte del programa.</span>
+      </span>
+    </button>
+
+    <button class="quick-action-card" type="button" (click)="goToMiPerfil()">
+      <span class="quick-action-icon summary-icon-primary">
+        <fa-icon [icon]="faUser"></fa-icon>
+      </span>
+
+      <span>
+        <span class="quick-action-title">Mi perfil</span>
+        <span class="quick-action-text">Revisa tus datos académicos y de acceso.</span>
+      </span>
+    </button>
+  </section>
 </section>
-qu

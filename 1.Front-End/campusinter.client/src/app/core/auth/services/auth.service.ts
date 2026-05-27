@@ -11,40 +11,37 @@ import { CurrentUserStore } from './current-user.store';
   providedIn: 'root'
 })
 export class AuthService {
+  //--Inyecciones
   constructor(
     private http: HttpClient,
     private currentUserStore: CurrentUserStore
   ) {}
 
-  // Registro publico
+  //--Métodos
+  // Registra un estudiante y guarda la sesión recibida.
   registrar(request: RegisterRequest): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(API_ROUTES.auth.registrar, request, {
         context: new HttpContext().set(SKIP_AUTH, true)
       })
-      .pipe(tap(response => this.currentUserStore.setUser(this.toCurrentUser(response))));
+      .pipe(tap(response => this.currentUserStore.establecerUsuario(this.toCurrentUser(response))));
   }
 
-  // Login publico
+  // Inicia sesión y guarda el usuario autenticado.
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http
       .post<AuthResponse>(API_ROUTES.auth.login, request, {
         context: new HttpContext().set(SKIP_AUTH, true)
       })
-      .pipe(tap(response => this.currentUserStore.setUser(this.toCurrentUser(response))));
+      .pipe(tap(response => this.currentUserStore.establecerUsuario(this.toCurrentUser(response))));
   }
 
-  // Cierre de sesion local
+  // Limpia la sesión local del usuario.
   cerrarSesion(): void {
-    this.currentUserStore.clear();
+    this.currentUserStore.limpiar();
   }
 
-  // Alias usado por interceptores y pantallas
-  logout(): void {
-    this.cerrarSesion();
-  }
-
-  // Adaptar respuesta del backend al usuario actual del frontend
+  // Adapta la respuesta del backend al modelo de usuario actual del frontend.
   private toCurrentUser(response: AuthResponse): CurrentUser {
     return {
       accessToken: response.accessToken,
@@ -58,7 +55,7 @@ export class AuthService {
     };
   }
 
-  // Nombre visible
+  // Arma el nombre visible ignorando partes vacías.
   private armarNombreVisible(response: AuthResponse): string {
     return [
       response.primerNombre,

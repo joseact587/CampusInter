@@ -6,30 +6,30 @@ import { TokenStorageService } from './token-storage.service';
   providedIn: 'root'
 })
 export class CurrentUserStore {
-  // Estado del usuario autenticado
-  currentUser = signal<CurrentUser | null>(null);
-
-  // Estado derivado para guards y vistas
-  isAuthenticated = computed(() => !!this.currentUser()?.accessToken);
-
+  //--Inyecciones
   constructor(private tokenStorage: TokenStorageService) {
-    this.loadFromStorage();
+    this.cargarDesdeStorage();
   }
 
-  // Iniciar sesión en memoria y storage
-  setUser(user: CurrentUser): void {
+  //--Variables
+  currentUser = signal<CurrentUser | null>(null);
+  estaAutenticado = computed(() => !!this.currentUser()?.accessToken);
+
+  //--Métodos
+  // Guarda el usuario en memoria y localStorage.
+  establecerUsuario(user: CurrentUser): void {
     this.tokenStorage.setSession(user);
     this.currentUser.set(user);
   }
 
-  // Limpiar sesión
-  clear(): void {
+  // Limpia el usuario actual y los datos persistidos.
+  limpiar(): void {
     this.tokenStorage.clear();
     this.currentUser.set(null);
   }
 
-  // Restaurar sesión al iniciar la aplicación
-  loadFromStorage(): void {
+  // Restaura la sesión guardada al iniciar la aplicación.
+  cargarDesdeStorage(): void {
     this.currentUser.set(this.tokenStorage.getCurrentUser());
   }
 }
