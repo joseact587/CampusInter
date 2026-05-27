@@ -130,7 +130,7 @@ public static class ApplicationDbContextSeeder
             .OrderBy(estudiante => estudiante.EstudianteId)
             .ToListAsync();
 
-        if (estudiantes.Count < 15)
+        if (estudiantes.Count < 10)
             return;
 
         var materias = await context.Materias
@@ -143,25 +143,20 @@ public static class ApplicationDbContextSeeder
 
         var combinaciones = new[]
         {
-            new[] { "Matematicas", "Quimica", "Historia" },
-            new[] { "Matematicas", "Biologia", "Ingles" },
-            new[] { "Matematicas", "Quimica", "Programacion" },
+            new[] { "Fisica", "Quimica", "Historia" },
+            new[] { "Fisica", "Biologia", "Ingles" },
+            new[] { "Fisica", "Quimica", "Programacion" },
             new[] { "Fisica", "Historia", "Ingles" },
             new[] { "Quimica", "Geografia", "Bases de Datos" },
-            new[] { "Matematicas", "Literatura", "Programacion" },
+            new[] { "Fisica", "Literatura", "Programacion" },
             new[] { "Biologia", "Historia", "Ingles" },
             new[] { "Fisica", "Quimica", "Programacion" },
-            new[] { "Matematicas", "Geografia", "Literatura" },
-            new[] { "Biologia", "Historia", "Bases de Datos" },
-            new[] { "Fisica", "Quimica", "Ingles" },
-            new[] { "Matematicas", "Historia", "Programacion" },
-            new[] { "Quimica", "Literatura", "Bases de Datos" },
-            new[] { "Fisica", "Biologia", "Geografia" },
-            new[] { "Matematicas", "Ingles", "Bases de Datos" }
+            new[] { "Fisica", "Geografia", "Literatura" },
+            new[] { "Biologia", "Historia", "Bases de Datos" }
         };
 
         var inscripciones = estudiantes
-            .Take(15)
+            .Take(10)
             .Select((estudiante, index) =>
             {
                 var materiasSeleccionadas = combinaciones[index]
@@ -189,12 +184,7 @@ public static class ApplicationDbContextSeeder
             new("andres.moreno@test.com", "Andres", "Felipe", "Moreno", "Ruiz", "1001001007"),
             new("diana.perez@test.com", "Diana", "Carolina", "Perez", "Soto", "1001001008"),
             new("miguel.ramirez@test.com", "Miguel", "Angel", "Ramirez", "Vargas", "1001001009"),
-            new("sofia.castro@test.com", "Sofia", "Alejandra", "Castro", "Moreno", "1001001010"),
-            new("camila.rojas@test.com", "Camila", "Andrea", "Rojas", "Perez", "1001001011"),
-            new("felipe.diaz@test.com", "Felipe", "Esteban", "Diaz", "Gomez", "1001001012"),
-            new("valentina.soto@test.com", "Valentina", "Isabel", "Soto", "Ramirez", "1001001013"),
-            new("sebastian.lopez@test.com", "Sebastian", "Nicolas", "Lopez", "Martinez", "1001001014"),
-            new("natalia.vargas@test.com", "Natalia", "Paola", "Vargas", "Torres", "1001001015")
+            new("sofia.castro@test.com", "Sofia", "Alejandra", "Castro", "Moreno", "1001001010")
         ];
     }
 
